@@ -4,28 +4,29 @@ html{
  background-color: rgb(225, 216, 168);
 }
 
-.topnav {
-  background-color: white;
+.navbar {
   position: fixed;
-  top: 0;               /* align to the top */
-  left: 0;              /* start from the left edge */
+  top: 0;
+  left: 0;
   width: 100%;
-  overflow: hidden; 
-  /*display: flex;
-  align-items: center;*/
+  display: flex;
+  justify-content: space-between; /* left, center, right */
+  align-items: center;
+  background-color: white;
+  /*z-index: 1000;*/
+  /*box-shadow: 0 2px 5px rgba(0,0,0,0.1);*/
+}
+.topnav {
+  display: flex;          /* arrange children horizontally */
+  align-items: center;    /* vertically center the image and text */
+  gap: 10px;              /* space between image and text */
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #4ea25f;
-  text-align: center;
-  padding: 5px 5px;
-  text-decoration: none;
-  font-size: 17px;  
+.topnavright {
+  display: flex;          /* arrange children horizontally */
+  align-items: center;    /* vertically center the image and text */
+  gap: 10px;              /* space between image and text */
 }
-
-
 
 /* Change the color of links on hover */
 .topnav a:hover {
@@ -33,26 +34,25 @@ html{
   color: black;
 }
 
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #04AA6D;
+.topnavright a.signinbtn {
+  float: right;
+  background-color: #83c0c7;
+  padding: 5px 10px;
   color: white;
+  text-decoration: none;
+  font-size: 15px;
 }
 
-.topnav a.split {
+.topnavright a.registerbtn {
   float: right;
-  background-color: #528bed;
-  color: rgb(233, 228, 228);
-  margin: 0 10px; 
-
+  background-color: #788789;
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  margin-right: 10px
 }
 
-.topnav a.Help {
-  float: right;
-  background-color: #35d72a;
-  color: rgb(233, 228, 228);
-
-}
 
 
 
