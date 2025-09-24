@@ -1,11 +1,13 @@
 /* Add a black background color to the top navigation */
 
 html{
- background-color: rgb(249, 237, 168);
+ background-color: rgb(225, 216, 168);
 }
 
 .topnav {
   background-color: white;
+  width: flex;
+  height: 100 px;
   overflow: hidden;
 }
 
@@ -14,7 +16,7 @@ html{
   float: left;
   color: #4ea25f;
   text-align: center;
-  padding: 4px 4px;
+  padding: 20px 20px;
   text-decoration: none;
   font-size: 17px;
 }
@@ -31,17 +33,9 @@ html{
   color: white;
 }
 
-
-
-
-.topnav{
-    width: flex;
-    height: 100 px;
-    overflow: hidden;
+.topnav a.split {
+  float: right;
+  background-color: #04AA6D;
+  color: rgb(233, 228, 228);
 }
 
-.computercat{
-    width: 10 px;
-    height: 10 px;
-    overflow: hidden;
-}
