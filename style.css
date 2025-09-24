@@ -6,9 +6,13 @@ html{
 
 .topnav {
   background-color: white;
-  width: flex;
-  height: 100 px;
-  overflow: hidden;
+  position: fixed;
+  top: 0;               /* align to the top */
+  left: 0;              /* start from the left edge */
+  width: 100%;
+  overflow: hidden; 
+  /*display: flex;
+  align-items: center;*/
 }
 
 /* Style the links inside the navigation bar */
@@ -16,10 +20,12 @@ html{
   float: left;
   color: #4ea25f;
   text-align: center;
-  padding: 20px 20px;
+  padding: 5px 5px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 17px;  
 }
+
+
 
 /* Change the color of links on hover */
 .topnav a:hover {
@@ -35,7 +41,18 @@ html{
 
 .topnav a.split {
   float: right;
-  background-color: #04AA6D;
+  background-color: #528bed;
   color: rgb(233, 228, 228);
+  margin: 0 10px; 
+
 }
+
+.topnav a.Help {
+  float: right;
+  background-color: #35d72a;
+  color: rgb(233, 228, 228);
+
+}
+
+
 
