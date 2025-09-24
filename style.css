@@ -69,6 +69,7 @@ html{
 
 
 /*Side bar */
+/*
 .tab {
     position: fixed;
     top: 50px;
@@ -148,3 +149,78 @@ html{
   transform: translateY(-35px); /* moves image up 50px, cropping top only */ 
   
 }
+
+
+.tab {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+     z-index: 100; 
+  }
+  
+.tab a:hover {
+    background-color: #ddd;
+}
+
+.tab h1 {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-bottom: 2px solid rgb(64, 64, 64);
+    padding-bottom: 15px;
+    margin-bottom: 1px; 
+    font-size: 18px;
+  }
+  
+.tab a.level{
+    display: block;
+  text-decoration: none;
+  color: black;
+  padding: 10px 16px;
+  box-sizing: border-box; 
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+.tab a.arrow{
+ 
+  text-decoration: none;
+  color: black;
+  padding: 10px 16px;
+  box-sizing: border-box; 
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.tabright {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+    z-index: 100;     
+  }
+
+
+  .input-container {
+  margin-top: 80px;              /* pushes below navbar */
+  display: flex;
+  justify-content: center;       /* center horizontally */
+}
+     
+
+   
