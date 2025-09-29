@@ -2,8 +2,8 @@ let currentEquation = "";
 let correctAnswer = 0;
 
 //Function to generate a new question/Equation
-async function newQuestion() {
-
+async function newQuestion() {                                                        // Lägg till så att man kan inputta operator
+  
   // Generate random numbers and an operator
   let num1 = Math.floor(Math.random() * 10) + 1;
   let num2 = Math.floor(Math.random() * 10) + 1;
