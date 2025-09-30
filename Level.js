@@ -4,7 +4,13 @@ class Level {
         this.variables = []
     } 
 
-    function saveLevels(input = ) {
+    saveLevels(level) {
+
+    }
+    
+    
+
+    addFinished(){
 
     }
 }
