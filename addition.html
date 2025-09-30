@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Project</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="API.js"></script>
   </head>
   <body>
     <nav class="navbar">
@@ -28,8 +29,15 @@
 
     </nav>
 
-    <div class="input-container">
-    <input type="text" placeholder="Enter your answer..." class="center-input">
+    <div class="input-container"> <!-- Generate equation -->
+
+      <p id="question">Press "New Question" to start!</p>
+      <input type="text" id="userAnswer" placeholder="Your answer">
+      <button onclick="checkAnswer()">Submit</button>
+      <button onclick="newQuestion()">New Question</button>
+      <p id="feedback"></p>
+
+
     </div>
 
     <div class="tab">
