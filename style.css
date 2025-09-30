@@ -1,0 +1,226 @@
+/* Add a black background color to the top navigation */
+
+html{
+ background-color: rgb(225, 216, 168);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* left, center, right */
+  align-items: center;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+
+}
+.topnav {
+  display: flex;          /* arrange children horizontally */
+  align-items: center;    /* vertically center the image and text */
+  gap: 10px;              /* space between image and text */
+}
+
+.topnavright {
+  display: flex;          /* arrange children horizontally */
+  align-items: center;    /* vertically center the image and text */
+  gap: 10px;              /* space between image and text */
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnavright a.signinbtn {
+  float: right;
+  background-color: #83c0c7;
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.topnavright a.registerbtn {
+  float: right;
+  background-color: #788789;
+  padding: 5px 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  margin-right: 10px
+
+}
+
+.topnavright a.righttablink{
+  text-decoration: none;
+  color: #788789;
+  font-size: 15px;
+  padding: 10px 8px;
+}
+
+.topnavright a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
+/*Side bar */
+/*
+.tab {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+    z-index: 100;     
+
+  }
+.tab button{
+  background-color: inherit;
+  color: black;
+  padding: 10px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  }
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab h1 {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-bottom: 2px solid rgb(64, 64, 64);
+    padding-bottom: 15px;
+    margin-bottom: 1px; 
+    font-size: 18px;
+  }
+  
+.tab a.buttonLink{
+  text-decoration: none;
+  color: black;
+}
+  
+
+.tabright {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+    z-index: 100;     
+  }
+
+
+ /* .flex-container{
+    flex: 1;                 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 450px; 
+
+  }*/
+
+  .flex-container {
+  width: 100%;
+  height: 450px;       /* visible height of the image */
+  overflow: hidden;    /* hide anything outside the container */
+  position: relative;
+  
+}
+
+.flex-container img {
+  width: 100%;
+  height: auto;           /* keep aspect ratio */
+  display: block;
+  transform: translateY(-35px); /* moves image up 50px, cropping top only */ 
+  
+}
+
+
+.tab {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+     z-index: 100; 
+  }
+  
+.tab a:hover {
+    background-color: #ddd;
+}
+
+.tab h1 {
+    padding-top: 10px;
+    padding-left: 10px;
+    border-bottom: 2px solid rgb(64, 64, 64);
+    padding-bottom: 15px;
+    margin-bottom: 1px; 
+    font-size: 18px;
+  }
+  
+.tab a.level{
+    display: block;
+  text-decoration: none;
+  color: black;
+  padding: 10px 16px;
+  box-sizing: border-box; 
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+.tab a.arrow{
+ 
+  text-decoration: none;
+  color: black;
+  padding: 10px 16px;
+  box-sizing: border-box; 
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.tabright {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    width: 15%;
+    height: 100vh;
+    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
+    z-index: 100;     
+  }
+
+
+  .input-container {
+  margin-top: 80px;              /* pushes below navbar */
+  display: flex;
+  justify-content: center;       /* center horizontally */
+}
+     
+
+   
