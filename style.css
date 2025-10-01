@@ -151,7 +151,7 @@ html{
 }
 
 
-.tab {
+.sideTabL {
     position: fixed;
     top: 50px;
     left: 0;
@@ -162,11 +162,11 @@ html{
      z-index: 100; 
   }
   
-.tab a:hover {
+.sideTabL a:hover {
     background-color: #ddd;
 }
 
-.tab h1 {
+.sideTabL h1 {
     padding-top: 10px;
     padding-left: 10px;
     border-bottom: 2px solid rgb(64, 64, 64);
@@ -175,7 +175,7 @@ html{
     font-size: 18px;
   }
   
-.tab a.level{
+.sideTabL a.level{
     display: block;
   text-decoration: none;
   color: black;
@@ -189,7 +189,7 @@ html{
   font-size: 18px;
   transition: background-color 0.3s;
 }
-.tab a.arrow{
+.sideTabL a.arrow{
  
   text-decoration: none;
   color: black;
@@ -204,7 +204,7 @@ html{
   transition: background-color 0.3s;
 }
 
-.tabright {
+.SideTabR {
     position: fixed;
     top: 50px;
     right: 0;
