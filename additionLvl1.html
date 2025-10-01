@@ -27,7 +27,7 @@
 
   <div class="content">
     <aside class="side-left">
-      <a href="index.html" class="arrow">←</a>
+      <a href="addition.html" class="arrow">←</a>
       <h2>Addition</h2>
         <a href="additionLvl1.html" class="level">Level 1</a>
         <a class="level">Level 2</a>
@@ -37,7 +37,13 @@
     </aside>
 
     <main>
-     
+      <div class="input-container"> <!-- Generate equation -->
+        <p id="question">Press "New Question" to start!</p>
+        <input type="text" id="userAnswer" placeholder="Your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <button onclick="newQuestion()">New Question</button>
+        <p id="feedback"></p>
+      </div>
     </main>
 
    
