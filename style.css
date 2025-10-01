@@ -108,12 +108,24 @@ html{
     color: rgb(87, 85, 85);
     font-weight: normal;
   }
+  .sideTabL h2 {
+    padding-top: 20px;
+    padding-left: 20px;
+    border-bottom: 2px solid rgb(203, 198, 198);
+    padding-bottom: 15px;
+    margin-top: -20px;
+    margin-bottom: 1px; 
+    font-size: 1.3vw;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(87, 85, 85);
+    font-weight: normal;
+  }
   
 .sideTabL a.level{
   display: block;
   text-decoration: none;
   color: black;
-  padding: 12px 20px;
+  padding: 12px 25px;
   box-sizing: border-box; 
   width: 100%;
   border: none;
@@ -124,20 +136,22 @@ html{
   transition: background-color 0.3s;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   word-spacing: 7px;
+  border-radius: 10px;
 }
 .sideTabL a.arrow{
   text-decoration: none;
-  color: black;
-  padding: 10px 16px;
+  color: rgb(103, 100, 100);
+  padding: 4px 16px;
   box-sizing: border-box; 
   width: 100%;
   outline: none;
   text-align: left;
   cursor: pointer;
   font-size: 18px;
+  line-height: 35px;
+  margin-bottom: 0px;
   transition: background-color 0.3s;
   border-radius: 10px;
-  
 }
 
 .sideTabR {
@@ -218,3 +232,18 @@ html{
   height: auto;
 }
    
+
+
+.underthing {
+  background-color:white;
+  width: 100px;
+  height: 500px;
+  position: fixed;
+
+  z-index: 1000;
+  top: 135%;
+  left: 50%;
+ 
+  transform: translateY(-50%);
+  
+}
