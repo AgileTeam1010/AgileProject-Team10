@@ -248,3 +248,47 @@ main {
     width: 100%;
   }
 }
+/* White info box in the middle of the front page */
+.white-section {
+  background-color: #ffffff;   
+  max-width: 1025px;          
+  margin: 40px auto;           
+  padding: 30px;               
+  font-family: 'Poppins', sans-serif;
+}
+.white-section h2 {
+  margin-bottom: 15px;   
+  color: #d38b4b;
+  font-size: 20px;
+}
+.white-section p {
+  font-size: 14px;         
+  color: #333;
+}
+
+/* Search box on the front page */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 4px 10px;
+  max-width: 250px;
+  margin: 40px auto;
+}
+.search-box input[type="search"] {
+  border: none;         
+  outline: none;      
+  font-size: 16px;
+  background: transparent; 
+}
+.search-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  color: #222;
+}
+
+
+
+
+
