@@ -1,5 +1,6 @@
 let currentEquation = "";
 let correctAnswer = 0;
+let currentLevel = 1;
 
 //Function to generate a new question/Equation
 async function newQuestion() {                                                        // Lägg till så att man kan inputta operator
@@ -22,12 +23,46 @@ async function newQuestion() {                                                  
   document.getElementById("feedback").textContent = "";                               // feedback, correct or wrong
 }
 
-function checkAnswer() { 
-  let userAnswer = document.getElementById("userAnswer").value.trim();                // gets the user input and trims any extra spaces
+// Generate a question based on the current level
+function generateQuestion(level) {
+  let min, max;
+  switch (level) {
+    case 1: min = 1; max = 10; break;
+    case 2: min = 10; max = 50; break;
+    case 3: min = 50; max = 200; break;
+    case 4: min = 100; max = 500; break;
+    case 5: min = 500; max = 1000; break;
+    default: min = 1; max = 10;
+  }
+  const a = Math.floor(Math.random() * (max - min + 1)) + min;
+  const b = Math.floor(Math.random() * (max - min + 1)) + min;
+  return { question: `${a} + ${b}`, answer: a + b };
+}
 
-  if (userAnswer === correctAnswer) {
-    document.getElementById("feedback").textContent = "Correct!"; 
+function newQuestion() {
+  currentQuestion = generateQuestion(currentLevel);
+  document.getElementById('question').textContent = currentQuestion.question;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('userAnswer').value = '';
+}
+
+function checkAnswer() {
+  const userAnswer = document.getElementById('userAnswer').value.trim();
+  const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
+
+  if (isCorrect) {
+    document.getElementById('feedback').textContent = 'Correct!';
   } else {
-    document.getElementById("feedback").textContent = `Wrong! Correct answer was: ${correctAnswer}`;
+    document.getElementById('feedback').textContent = 'Try again!';
   }
 }
+
+// Add event listeners for level buttons
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.level').forEach(link => {
+    link.addEventListener('click', () => {
+      currentLevel = parseInt(link.dataset.level); // takes the level from the a-ref clicked
+      newQuestion();
+    });
+  });
+});
