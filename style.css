@@ -204,7 +204,7 @@ html{
   transition: background-color 0.3s;
 }
 
-.SideTabR {
+.sideTabR {
     position: fixed;
     top: 50px;
     right: 0;
