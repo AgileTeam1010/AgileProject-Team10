@@ -1,13 +1,17 @@
-/* Add a black background color to the top navigation */
-
-html{
- background-color: rgb(225, 216, 168);
+/* Reset defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Body font */
+body {
+ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Header */
+.top-header { 
   width: 100%;
   display: flex;
   justify-content: space-between; /* left, center, right */
@@ -15,212 +19,232 @@ html{
   background-color: white;
   z-index: 1000;
   box-shadow: 0 2px 2px rgba(0,0,0,0.1);
-
+  height: 5vw;
 }
-.topnav {
+
+
+.left-header {
   display: flex;          /* arrange children horizontally */
   align-items: center;    /* vertically center the image and text */
   gap: 10px;              /* space between image and text */
+  padding-left: 5px;
 }
 
-.topnavright {
-  display: flex;          /* arrange children horizontally */
-  align-items: center;    /* vertically center the image and text */
-  gap: 10px;              /* space between image and text */
+
+.left-header h1 {
+  font-family: 'Irish Grover', cursive;
+  font-size: 2.8vw;
+  color: #83c0c7
 }
 
-/* Change the color of links on hover */
-.topnav a:hover {
+.left-header a:hover {
   background-color: #ddd;
   color: black;
+  border-radius: 10px;
 }
 
-.topnavright a.signinbtn {
+.right-header {
+  display: flex;          /* arrange children horizontally */
+  align-items: center;    /* vertically center the image and text */
+  gap: 10px;              /* space between image and text */
+}
+
+
+.right-header a.signinbtn {
   float: right;
   background-color: #83c0c7;
-  padding: 5px 10px;
+  padding: 7px 10px;
   color: white;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 1.15vw;
+  border-radius: 10px;
 }
 
-.topnavright a.registerbtn {
+.right-header a.registerbtn {
   float: right;
   background-color: #788789;
-  padding: 5px 10px;
+  padding: 7px 10px;
   color: white;
   text-decoration: none;
-  font-size: 15px;
-  margin-right: 10px
+  font-size: 1.15vw;
+  margin-right: 10px;
+  border-radius: 10px;
 
 }
 
-.topnavright a.righttablink{
+.right-header a.righttablink{
   text-decoration: none;
   color: #788789;
-  font-size: 15px;
   padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 1.15vw;
 }
 
-.topnavright a:hover {
+.right-header a:hover {
   background-color: #ddd;
   color: black;
 }
 
 
-/*Side bar */
-/*
-.tab {
-    position: fixed;
-    top: 50px;
-    left: 0;
+
+/* Layout */
+.content {
+  display: flex;
+  height: 100vh;
+}
+
+/* side bars*/
+
+.side-left, .side-right {
     background-color: white;
     width: 15%;
-    height: 100vh;
-    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
-    z-index: 100;     
+    z-index: 100;
+}
 
+.side-left {
+    box-shadow: 2px 0 4px -2px rgba(0,0,0,0.3);
   }
-.tab button{
-  background-color: inherit;
-  color: black;
-  padding: 10px 16px;
+
+.side-right{
+   box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
+}  
+
+
+.side-left h1 {
+    padding-top: 30px;
+    padding-left: 20px;
+    border-bottom: 2px solid rgb(203, 198, 198);
+    padding-bottom: 15px;
+    margin-bottom: 1px; 
+    font-size: 1.3vw;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(87, 85, 85);
+    font-weight: normal;
+  }
+
+.side-left a.level {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 12px 25px;
+    box-sizing: border-box; 
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1.3vw;
+    transition: background-color 0.3s;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    word-spacing: 7px;
+    border-radius: 10px;
+}
+.side-left a:hover {
+    background-color: #ddd;
+}
+
+
+  .side-left h2 {
+    padding-top: 20px;
+    padding-left: 20px;
+    border-bottom: 2px solid rgb(203, 198, 198);
+    padding-bottom: 15px;
+    margin-top: -20px;
+    margin-bottom: 1px; 
+    font-size: 1.3vw;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(87, 85, 85);
+    font-weight: normal;
+  }
+
+.side-left a.arrow{
+  text-decoration: none;
+  color: rgb(103, 100, 100);
+  padding: 4px 16px;
+  box-sizing: border-box; 
   width: 100%;
-  border: none;
   outline: none;
   text-align: left;
   cursor: pointer;
   font-size: 18px;
+  line-height: 35px;
+  margin-bottom: 0px;
   transition: background-color 0.3s;
-  }
-.tab button:hover {
-    background-color: #ddd;
+  border-radius: 10px;
 }
 
-.tab h1 {
-    padding-top: 10px;
-    padding-left: 10px;
-    border-bottom: 2px solid rgb(64, 64, 64);
-    padding-bottom: 15px;
-    margin-bottom: 1px; 
-    font-size: 18px;
-  }
-  
-.tab a.buttonLink{
-  text-decoration: none;
-  color: black;
+/* Main column */
+main {
+  flex: 1;
+  background-color:rgb(251, 240, 177);
 }
-  
 
-.tabright {
-    position: fixed;
-    top: 50px;
-    right: 0;
-    background-color: white;
-    width: 15%;
-    height: 100vh;
-    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
-    z-index: 100;     
-  }
-
-
- /* .flex-container{
-    flex: 1;                 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    height: 450px; 
-
-  }*/
-
-  .flex-container {
+/* board picture*/
+.index-container {
   width: 100%;
-  height: 450px;       /* visible height of the image */
-  overflow: hidden;    /* hide anything outside the container */
   position: relative;
   
 }
 
-.flex-container img {
+.index-container img {
   width: 100%;
   height: auto;           /* keep aspect ratio */
   display: block;
-  transform: translateY(-35px); /* moves image up 50px, cropping top only */ 
-  
 }
 
-
-.tab {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    background-color: white;
-    width: 15%;
-    height: 100vh;
-    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
-     z-index: 100; 
-  }
-  
-.tab a:hover {
-    background-color: #ddd;
+.textOnBoard {
+  position: absolute;
+  top: 35%;
+  left: 43%;
+  transform: translate(-40%, -50%);
+  color: white;
+  font-family: 'Love Ya Like A Sister', cursive;
+  z-index: 100;   /* make sure it’s on top of the image */
 }
 
-.tab h1 {
-    padding-top: 10px;
-    padding-left: 10px;
-    border-bottom: 2px solid rgb(64, 64, 64);
-    padding-bottom: 15px;
-    margin-bottom: 1px; 
-    font-size: 18px;
-  }
-  
-.tab a.level{
-    display: block;
-  text-decoration: none;
-  color: black;
-  padding: 10px 16px;
-  box-sizing: border-box; 
-  width: 100%;
-  border: none;
-  outline: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s;
-}
-.tab a.arrow{
- 
-  text-decoration: none;
-  color: black;
-  padding: 10px 16px;
-  box-sizing: border-box; 
-  width: 100%;
-  border: none;
-  outline: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s;
+.textOnBoard h1 {
+ font-size: 4.5vw;
+ font-weight: lighter;
+ margin-bottom: 0px;
+ white-space: nowrap;
 }
 
-.tabright {
-    position: fixed;
-    top: 50px;
-    right: 0;
-    background-color: white;
-    width: 15%;
-    height: 100vh;
-    box-shadow: 2px 0 2px -4px rgba(0,0,0,0.3);
-    z-index: 100;     
-  }
+.textOnBoard h3 {
+ font-size: 2.3vw;
+ font-weight: lighter;
+ margin-left: 4vw; 
+}
 
+/*cat picture*/
 
+.cat-container {
+  position: absolute;
+  bottom: 0%;            /* aligns the cat image to bottom of board */
+  left: 60%;            /* center horizontally */
+  transform: translate(-40%, 1%);
+  z-index: 101;         /* above board image */
+}
+
+.cat-container img {
+  width: 25vw;         /* adjust size of Pusheen */
+  height: auto;
+}
+
+/* input for the questions */
   .input-container {
   margin-top: 80px;              /* pushes below navbar */
   display: flex;
   justify-content: center;       /* center horizontally */
 }
-     
 
-   
+/* Responsive: stack on small screens */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .side-left, .side-right, main {
+    width: 100%;
+  }
+}
