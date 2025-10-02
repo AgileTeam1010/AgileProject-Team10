@@ -1,6 +1,14 @@
 let currentEquation = "";
 let correctAnswer = 0;
 let currentLevel = 1;
+let points = 0;
+let completedQuestions = {
+  1: [],
+  2: [],
+  3: [],
+  4: [],
+  5: []
+};
 
 //Function to generate a new question/Equation
 async function newQuestion() {                                                        // Lägg till så att man kan inputta operator
@@ -51,7 +59,20 @@ function checkAnswer() {
   const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
 
   if (isCorrect) {
-    document.getElementById('feedback').textContent = 'Correct!';
+    points += 10;
+
+    completedQuestions[currentLevel].push({
+      question: currentQuestion.question,
+      answer: currentQuestion.answer
+    });
+
+    console.log(completedQuestions);
+
+    newQuestion();
+    document.getElementById('feedback').textContent = 
+      `Correct! You have ${points} points! 
+       You have completed ${completedQuestions[currentLevel].length} questions on Level ${currentLevel}!`;
+
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
