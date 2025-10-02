@@ -1,58 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No-Gap Layout</title>
   <link rel="stylesheet" href="../style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet"> 
-  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">    
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
   <script src="../API.js"></script>
 </head>
-  <body>
-    <header class = top-header>
-      <div class = "left-header">
-          <a href="../index.html"><input type="image" src="../pictures/computercat.png" name="saveForm" class="btTxt submit" id="saveForm"/></a>
-          <h1>CatCulation</h1> 
-      </div> 
 
-      <div class = "right-header">
-          <a href="#about" class="righttablink">About us</a>
-          <a href="#about" class="righttablink">Contact</a>
-          <a href="#about" class="righttablink">FAQ</a>
-          <a href="#about" class="signinbtn">Sign in</a>
-          <a href="#home" class="registerbtn">Register</a>
-      </div>
-    </header>
-
-
-    <div class="content">
-      <aside class="side-left">
-        <a href="../index.html" class="arrow">←</a>
-        <h2>Addition</h2>
-          <a class="level" data-level="1" href="#">Level 1</a>
-          <a class="level" data-level="2" href="#">Level 2</a>
-          <a class="level" data-level="3" href="#">Level 3</a>
-          <a class="level" data-level="4" href="#">Level 4</a>
-          <a class="level" data-level="5" href="#">Level 5</a>
-      </aside>
-
-      <main>
-          <div class="input-container"> <!-- Generate equation -->
-          <p id="question">Press "New Question" to start!</p>
-          <input type="text" id="userAnswer" placeholder="Your answer">
-          <button onclick="checkAnswer()">Submit</button>
-          <button onclick="newQuestion()">New Question</button>
-          <p id="feedback"></p>
-      </div>
-        
-      </main>
-
-      <aside class="side-right">
-      
-      </aside>
+<body>
+  <header class=top-header>
+    <div class="left-header">
+      <a href="../index.html"><input type="image" src="../pictures/computercat.png" name="saveForm" class="btTxt submit"
+          id="saveForm" /></a>
+      <h1>CatCulation</h1>
     </div>
 
+    <div class="right-header">
+      <a href="#about" class="righttablink">About us</a>
+      <a href="#about" class="righttablink">Contact</a>
+      <a href="#about" class="righttablink">FAQ</a>
+      <a href="#about" class="signinbtn">Sign in</a>
+      <a href="#home" class="registerbtn">Register</a>
+    </div>
+  </header>
 
-  </body>
+
+  <div class="content">
+    <aside class="side-left">
+      <a href="addition.html" class="arrow">←</a>
+      <h2>Addition</h2>
+      <a class="level" data-level="1" href="#">Level 1</a>
+      <a class="level" data-level="2" href="#">Level 2</a>
+      <a class="level" data-level="3" href="#">Level 3</a>
+      <a class="level" data-level="4" href="#">Level 4</a>
+      <a class="level" data-level="5" href="#">Level 5</a>
+
+      <div class="level-link">
+        <a href="additionLvl.html">Level 1</a>
+        <input type="checkbox">
+
+      </div>
+      <div class="level-link">
+        <a href="level2.html">Level 2</a>
+        <input type="checkbox">
+      </div>
+
+
+
+    </aside>
+
+
+
+    <main>
+      <div class="input-container"> <!-- Generate equation -->
+        <p id="question">Press "New Question" to start!</p>
+        <input type="text" id="userAnswer" placeholder="Your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <button onclick="newQuestion()">New Question</button>
+        <p id="feedback"></p>
+      </div>
+
+    </main>
+
+    <aside class="side-right">
+
+    </aside>
+  </div>
+
+
+</body>
+
 </html>

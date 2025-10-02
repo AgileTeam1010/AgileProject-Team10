@@ -20,6 +20,7 @@ body {
   z-index: 1000;
   box-shadow: 0 2px 2px rgba(0,0,0,0.1);
   height: 5vw;
+  position: fixed;
 }
 
 
@@ -90,7 +91,7 @@ body {
 /* Layout */
 .content {
   display: flex;
-  height: 100vh;
+  height: 150vh;
 }
 
 /* side bars*/
@@ -103,12 +104,15 @@ body {
 
 .side-left {
     box-shadow: 2px 0 4px -2px rgba(0,0,0,0.3);
+    position: fixed;
+    height: 100%;
+    top: 10%; 
   }
 
 .side-right{
    box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
-}  
 
+}  
 
 .side-left h1 {
     padding-top: 30px;
@@ -139,6 +143,9 @@ body {
     word-spacing: 7px;
     border-radius: 10px;
 }
+
+
+
 .side-left a:hover {
     background-color: #ddd;
 }
@@ -174,9 +181,15 @@ body {
 }
 
 /* Main column */
+
 main {
   flex: 1;
-  background-color:rgb(251, 240, 177);
+  margin-top: 5%;
+  margin-left: 15%;
+  margin-right:0%;
+  margin-bottom: 0%;
+  background: rgb(251, 240, 177);
+
 }
 
 /* board picture*/
@@ -184,22 +197,26 @@ main {
   width: 100%;
   position: relative;
   
+  
 }
+  
 
 .index-container img {
   width: 100%;
-  height: auto;           /* keep aspect ratio */
+  height: auto;           
   display: block;
+  
 }
 
 .textOnBoard {
   position: absolute;
-  top: 35%;
+  top: 27%;
   left: 43%;
   transform: translate(-40%, -50%);
   color: white;
   font-family: 'Love Ya Like A Sister', cursive;
   z-index: 100;   /* make sure it’s on top of the image */
+  text-align: center;
 }
 
 .textOnBoard h1 {
@@ -219,9 +236,9 @@ main {
 
 .cat-container {
   position: absolute;
-  bottom: 0%;            /* aligns the cat image to bottom of board */
+  bottom: 29%;            /* aligns the cat image to bottom of board */
   left: 60%;            /* center horizontally */
-  transform: translate(-40%, 1%);
+  transform: translateX(-40%);
   z-index: 101;         /* above board image */
 }
 
@@ -251,11 +268,16 @@ main {
 /* White info box in the middle of the front page */
 .white-section {
   background-color: #ffffff;   
-  max-width: 1025px;          
-  margin: 40px auto;           
-  padding: 30px;               
+  
+  max-width: 92%;          
+  margin: 3.5% auto;          
+  padding: 35px;            
   font-family: 'Poppins', sans-serif;
+  height: 55vh;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
 }
+
 .white-section h2 {
   margin-bottom: 15px;   
   color: #d38b4b;
@@ -288,6 +310,71 @@ main {
   color: #222;
 }
 
+
+
+/*level buttons with checkmark in it*/
+
+.level-link a{
+   
+   text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    width: 100%;
+}
+
+
+.level-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 25px;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.3vw;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  transition: background-color 0.3s;
+}
+
+.level-link:hover {
+  background-color: #ddd; 
+}
+
+.level-link input[type="checkbox"] {
+  margin-left: 10px; 
+}
+
+/*Top box foor different topics */
+.topic-top-box{
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  height: 11%;
+  justify-content: center;
+}
+
+.topic-top-box h2{ 
+  color: #d38b4b;
+  font-size: 3vw;
+}
+.topic-top-box p{ 
+  color: black;
+  font-size: 1.3vw;
+}
+
+
+
+/*.video {
+  width: 60%;           
+  aspect-ratio: 16 / 9; 
+  margin: 0 auto;    
+}
+
+.video iframe {
+  width: 100%;
+  height: 100%;
+}*/
 
 
 
