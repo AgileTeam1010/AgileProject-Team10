@@ -1,11 +1,4 @@
-function toggleForms() {
-  document.getElementById("loginForm").classList.toggle("hidden");
-  document.getElementById("signupForm").classList.toggle("hidden");
-  document.getElementById("error").textContent = "";
-  document.getElementById("signupError").textContent = "";
-}
-
-// LOGIN
+// Login
 async function login(event) {
   event.preventDefault();
   const email = document.getElementById("email").value.trim();
@@ -16,12 +9,13 @@ async function login(event) {
   try {
     const userCredential = await window._signIn(window._auth, email, password);
     alert(`✅ Logged in as ${userCredential.user.email}`);
+    window.location.href = "profile.html"; // redirect här
   } catch (error) {
     errorElement.textContent = error.message;
   }
 }
 
-// SIGNUP
+// Signup
 async function signup(event) {
   event.preventDefault();
   const email = document.getElementById("newEmail").value.trim();
@@ -29,7 +23,7 @@ async function signup(event) {
   const errorElement = document.getElementById("signupError");
   errorElement.textContent = "";
 
-  // 🔒 Password validation
+  // Password check
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
   if (!passwordRegex.test(password)) {
     errorElement.textContent =
@@ -40,8 +34,7 @@ async function signup(event) {
   try {
     const userCredential = await window._signUp(window._auth, email, password);
     alert(`🎉 Account created for ${userCredential.user.email}`);
-    // After signup, switch back to login form
-    toggleForms();
+    window.location.href = "profile.html"; // ny redirect
   } catch (error) {
     errorElement.textContent = error.message;
   }

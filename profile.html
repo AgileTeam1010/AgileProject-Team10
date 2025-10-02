@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .profile-container h2 {
+      margin-bottom: 10px;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      margin-top: 20px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .logout-btn:hover {
+      background: #e63b3b;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <h2>Welcome!</h2>
+    <p id="userEmail">Loading user...</p>
+    <button class="logout-btn" onclick="logout()">Log out</button>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+      authDomain: "agileproject-team10.firebaseapp.com",
+      projectId: "agileproject-team10",
+      storageBucket: "agileproject-team10.firebasestorage.app",
+      messagingSenderId: "949551209474",
+      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+      measurementId: "G-MQQDX82E7M"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🔑 Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+      } else {
+        // 🚨 Not logged in → redirect back to login
+        window.location.href = "index.html";
+      }
+    });
+
+    // 🔒 Logout function
+    window.logout = function() {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    }
+  </script>
+</body>
+</html>
