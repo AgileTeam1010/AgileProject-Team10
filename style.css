@@ -249,6 +249,18 @@ main {
   width: 25vw;         /* adjust size of Pusheen */
   height: auto;
 }
+/* cat picture addition page*/
+.addition-cat {
+  position: absolute;   /* relativt main */
+  bottom: -10px;
+  left: -60px;
+  z-index: 100;
+}
+
+.addition-cat img {
+  width: 300px;   /* lagom storlek */
+  height: auto;
+}
 
 /* input for the questions */
   .input-container {
