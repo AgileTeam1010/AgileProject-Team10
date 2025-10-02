@@ -200,44 +200,15 @@ main {
 /* board picture*/
 .index-container {
   width: 100%; 
-  
 }
-  
 
 .index-container img {
   width: 100%;
   height: auto;           
   display: block;
-  
-}
-
-
-.textOnBoard {
-  position: absolute;
-  top: 23vw;
-  left: 45vw;
-  transform: translate(-40%, -50%);
-  color: white;
-  font-family: 'Love Ya Like A Sister', cursive;
-  z-index: 100;   /* make sure it’s on top of the image */
-  text-align: center;
-}
-
-.textOnBoard h1 {
- font-size: 4.5vw;
- font-weight: lighter;
- margin-bottom: 0px;
- white-space: nowrap;
-}
-
-.textOnBoard h3 {
- font-size: 2.3vw;
- font-weight: lighter;
- margin-left: 4vw; 
 }
 
 /*cat picture*/
-
 
 .cat-container {
   top: 50vb;
