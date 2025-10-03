@@ -393,7 +393,15 @@ main {
   font-size: 1.3vw;
 }
 
+/*cat food picture in addition*/
+.cat-food{
+  display: flex;
+  justify-content: center;
+}
 
+.cat-food img{
+  max-width: 60%;
+}
 
 
 
