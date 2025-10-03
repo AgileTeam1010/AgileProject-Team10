@@ -6,6 +6,7 @@
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* profile card styling */
     .profile-container {
       max-width: 400px;
       margin: 100px auto;
@@ -37,15 +38,16 @@
 <body>
   <div class="profile-container">
     <h2>Welcome!</h2>
-    <p id="userEmail">Loading user...</p>
+    <p id="userEmail">Loading user...</p> <!-- will show user's email -->
     <button class="logout-btn" onclick="logout()">Log out</button>
   </div>
 
-  <!-- Firebase -->
+  <!-- Firebase setup and logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
       authDomain: "agileproject-team10.firebaseapp.com",
@@ -56,20 +58,21 @@
       measurementId: "G-MQQDX82E7M"
     };
 
+    // Init Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // 🔑 Check if user is logged in
+    // Check if user is logged in
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById("userEmail").textContent = "Logged in as " + user.email;
       } else {
-        // 🚨 Not logged in → redirect back to login
+        // If not logged in, go back to login page
         window.location.href = "index.html";
       }
     });
 
-    // 🔒 Logout function
+    // Log out function
     window.logout = function() {
       signOut(auth).then(() => {
         window.location.href = "index.html";

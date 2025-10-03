@@ -1,27 +1,30 @@
 :root {
-  --bg: #0b1020;
-  --bg-accent: #101735;
-  --card-bg: rgba(255, 255, 255, 0.06);
-  --card-border: rgba(255, 255, 255, 0.12);
-  --text: #e7e9ee;
-  --muted: #b9c0d0;
-  --primary: #5b8cff;
-  --primary-hover: #4b79e6;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  /* color variables for theme */
+  --bg: #0b1020;                /* background */
+  --bg-accent: #101735;         /* accent background */
+  --card-bg: rgba(255,255,255,0.06); /* card background */
+  --card-border: rgba(255,255,255,0.12); /* card border */
+  --text: #e7e9ee;              /* main text */
+  --muted: #b9c0d0;             /* muted text */
+  --primary: #5b8cff;           /* main blue color (buttons, links) */
+  --primary-hover: #4b79e6;     /* hover color for buttons/links */
+  --shadow: 0 10px 30px rgba(0,0,0,0.35); /* card shadow */
 }
 
+/* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
     --bg: #f4f6fb;
     --bg-accent: #e8ecf7;
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --card-border: rgba(15, 23, 42, 0.08);
+    --card-bg: rgba(255,255,255,0.8);
+    --card-border: rgba(15,23,42,0.08);
     --text: #0f172a;
     --muted: #475569;
-    --shadow: 0 10px 30px rgba(2, 6, 23, 0.12);
+    --shadow: 0 10px 30px rgba(2,6,23,0.12);
   }
 }
 
+/* universal box-sizing */
 *,
 *::before,
 *::after {
@@ -32,6 +35,7 @@ html, body {
   height: 100%;
 }
 
+/* page background and font */
 body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -41,6 +45,7 @@ body {
               var(--bg);
 }
 
+/* centers everything on the page */
 .page {
   min-height: 100svh;
   display: grid;
@@ -48,6 +53,7 @@ body {
   padding: 24px;
 }
 
+/* login/signup card */
 .card {
   width: 100%;
   max-width: 380px;
@@ -64,11 +70,13 @@ body {
   transform: translateY(-2px);
 }
 
+/* header area in card (logo, title, subtitle) */
 .card-header {
   text-align: center;
   margin-bottom: 18px;
 }
 
+/* logo at the top of the card */
 .logo {
   width: 48px;
   height: 48px;
@@ -81,6 +89,7 @@ body {
   border-radius: 12px;
 }
 
+/* main title (e.g. "Welcome back") */
 h1 {
   font-size: 22px;
   margin: 6px 0 2px;
@@ -88,65 +97,74 @@ h1 {
   letter-spacing: 0.2px;
 }
 
+/* subtitle under title */
 .subtitle {
   margin: 0;
   color: var(--muted);
   font-size: 14px;
 }
 
+/* form container (login or signup) */
 .form {
   margin-top: 10px;
 }
 
+/* each input field group */
 .field {
   display: grid;
   gap: 8px;
   margin: 14px 0;
 }
 
+/* label for input fields */
 label {
   font-size: 13px;
   color: var(--muted);
 }
 
+/* input fields (email, password) */
 input {
   width: 100%;
   padding: 12px 14px;
   font-size: 14px;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.06);
   border: 1px solid var(--card-border);
   border-radius: 10px;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
 
+/* placeholder text in input */
 input::placeholder {
   color: #9aa3b2;
 }
 
+/* input focus effect */
 input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
 }
 
+/* container for buttons (Sign in, Create Account) */
 .actions {
   margin-top: 18px;
 }
 
+/* main button (Sign in, Create Account) */
 .btn {
   width: 100%;
   padding: 12px 14px;
   font-size: 15px;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, var(--primary), #ff1428);
+  background: linear-gradient(135deg, var(--primary), #ff1428); /* button color */
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.06s ease, filter 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 8px 18px rgba(91, 140, 255, 0.35);
+  transition: transform 0.06s, filter 0.15s, box-shadow 0.15s;
+  box-shadow: 0 8px 18px rgba(91,140,255,0.35);
 }
 
 .btn:hover {
@@ -159,6 +177,7 @@ input:focus {
   filter: brightness(0.98);
 }
 
+/* error message under form */
 .error {
   min-height: 18px;
   margin: 10px 0 0;
@@ -166,6 +185,7 @@ input:focus {
   font-size: 13px;
 }
 
+/* meta info under form (links for forgot password, create account) */
 .meta {
   margin-top: 14px;
   display: flex;
@@ -176,6 +196,7 @@ input:focus {
   font-size: 13px;
 }
 
+/* links (forgot password, create account) */
 .link {
   color: var(--primary);
   text-decoration: none;
@@ -185,10 +206,12 @@ input:focus {
   text-decoration: underline;
 }
 
+/* hide element (used for hiding signup/login form) */
 .hidden {
   display: none;
 }
 
+/* password requirements hint under password field */
 .hint {
   display: block;
   margin-top: 4px;
@@ -196,7 +219,7 @@ input:focus {
   color: var(--muted);
 }
 
-/* Small screens */
+/* card padding for small screens */
 @media (max-width: 380px) {
   .card {
     padding: 22px;
