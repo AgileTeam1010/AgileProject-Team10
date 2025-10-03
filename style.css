@@ -262,7 +262,7 @@ main {
   background-color: #ffffff;   
   
   max-width: 92%;          
-  margin: 3.5% auto;          
+  margin: 1% auto;          
   padding: 35px;            
   font-family: 'Poppins', sans-serif;
   height: 55vh;
@@ -288,7 +288,7 @@ main {
   border-radius: 25px;
   padding: 4px 10px;
   max-width: 250px;
-  margin: 40px auto;
+  margin: 5px auto;
 }
 .search-box input[type="search"] {
   border: none;         
