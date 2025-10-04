@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <!-- Google Fonts and CSS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylelogin.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <div class="card-header">
+        <div class="logo">🔒</div> <!-- just a lock icon for logo -->
+        <h1 id="formTitle">Welcome back</h1>
+        <p class="subtitle" id="formSubtitle">Please sign in to continue</p>
+      </div>
+
+      <!-- Login form -->
+      <form class="form" id="loginForm" onsubmit="login(event)">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn">Sign in</button>
+        </div>
+
+        <p id="error" class="error" role="alert" aria-live="polite"></p>
+
+        <div class="meta">
+          <a href="#" class="link">Forgot password?</a>
+          <span>•</span>
+          <!-- link to show signup form -->
+          <a href="#" class="link" onclick="toggleForms()">Create account</a>
+        </div>
+      </form>
+
+      <!-- Signup form, hidden at first -->
+      <form class="form hidden" id="signupForm" onsubmit="signup(event)">
+        <div class="field">
+          <label for="newEmail">Email</label>
+          <input id="newEmail" type="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="newPassword">Password</label>
+          <input id="newPassword" type="password" placeholder="Choose a password" autocomplete="new-password" required />
+          <!-- password requirements hint -->
+          <small id="passwordHelp" class="hint">
+            Password must be at least 8 characters, with uppercase, lowercase, and a number.
+          </small>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn">Create Account</button>
+        </div>
+
+        <p id="signupError" class="error" role="alert" aria-live="polite"></p>
+
+        <div class="meta">
+          <!-- link to go back to login form -->
+          <a href="#" class="link" onclick="toggleForms()">Already have an account?</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Firebase SDK setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+      authDomain: "agileproject-team10.firebaseapp.com",
+      projectId: "agileproject-team10",
+      storageBucket: "agileproject-team10.firebasestorage.app",
+      messagingSenderId: "949551209474",
+      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+      measurementId: "G-MQQDX82E7M"
+    };
+
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Make auth functions available globally
+    window._auth = auth;
+    window._signIn = signInWithEmailAndPassword;
+    window._signUp = createUserWithEmailAndPassword;
+  </script>
+
+  <!-- Main app logic -->
+  <script src="app.js"></script>
+</body>
+</html>
