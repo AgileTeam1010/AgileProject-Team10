@@ -36,14 +36,26 @@ function generateQuestion(level) {
   }
   const a = Math.floor(Math.random() * (max - min + 1)) + min;
   const b = Math.floor(Math.random() * (max - min + 1)) + min;
-  return { question: `${a} + ${b}`, answer: a + b };
+  /*return { question: `${a} + ${b}`, answer: a + b };*/
+
+  const operator = '+';
+  return { a, b, operator, answer: a + b };
 }
 
 function newQuestion() {
   currentQuestion = generateQuestion(currentLevel);
+
+  document.getElementById('question').textContent = `Solve: ${currentQuestion.a} ${currentQuestion.operator} ${currentQuestion.b}`;
+  document.querySelector('.first').textContent = currentQuestion.a;
+  document.querySelector('.second .number').textContent = currentQuestion.b;
+  document.querySelector('.second .plus').textContent = currentQuestion.operator;
+
   document.getElementById('question').textContent = currentQuestion.question;
   document.getElementById('feedback').textContent = '';
   document.getElementById('userAnswer').value = '';
+
+
+
 }
 
 function checkAnswer() {

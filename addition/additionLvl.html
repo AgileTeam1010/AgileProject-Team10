@@ -21,10 +21,12 @@
 
     <div class="right-header">
       <a href="#about" class="righttablink">About us</a>
-      <a href="#about" class="righttablink">Contact</a>
       <a href="#about" class="righttablink">FAQ</a>
-      <a href="#about" class="signinbtn">Sign in</a>
-      <a href="#home" class="registerbtn">Register</a>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="search" placeholder="Search...">
+      </div>
+      <a href="../indexlogin.html" class="signinbtn">Sign in / Register</a>
     </div>
   </header>
 
@@ -33,41 +35,108 @@
     <aside class="side-left">
       <a href="addition.html" class="arrow">←</a>
       <h2>Addition</h2>
-      <a class="level" data-level="1" href="#">Level 1</a>
-      <a class="level" data-level="2" href="#">Level 2</a>
-      <a class="level" data-level="3" href="#">Level 3</a>
-      <a class="level" data-level="4" href="#">Level 4</a>
-      <a class="level" data-level="5" href="#">Level 5</a>
+      <a class="level" data-level="1" href="#?level=1">Level 1</a>
+      <a class="level" data-level="2" href="#?level=2">Level 2</a>
+      <a class="level" data-level="3" href="#?level=3">Level 3</a>
+      <a class="level" data-level="4" href="#?level=4">Level 4</a>
+      <a class="level" data-level="5" href="#?level=5">Level 5</a>
 
-      
+
       <div class="level-link">
         <a href="#">Level 1</a>
         <input type="checkbox">
       </div>
-     
-
-
 
     </aside>
 
 
 
     <main>
-      <div class="input-container"> <!-- Generate equation -->
+     <!---<div class="input-container"> 
         <p id="question">Press "New Question" to start!</p>
         <input type="text" id="userAnswer" placeholder="Your answer">
         <button onclick="checkAnswer()">Submit</button>
         <button onclick="newQuestion()">New Question</button>
         <p id="feedback"></p>
+      </div>-->
+
+     
+      <div class="level-box">
+        <div class="container">
+        <p id="question">Press "New Question" to start!</p>
+
+          <div class="first"> </div>
+          <div class="second">
+            <div class="plus">+</div>
+            <div class="number"> </div>
+          </div>
+          <div class="third">
+              <div class="line"></div>
+            <input type="text" id="userAnswer" placeholder="Your answer">
+            <div class="result"></div>
+          </div>
+
+          <div class="buttons">
+            <button onclick="checkAnswer()">Submit</button>
+            <button onclick="newQuestion()">New Question</button>
+          </div>
+
+          <!--<p id="feedback"></p>-->
+        </div>
+      </div>
+
+      <div class="catLVL-container">
+        <img src="../pictures/cat.png">
+      </div>
+      <div class="speechBubble-container">
+         <p id="feedback">Let's get started!</p>
+        <img src="../pictures/speech-bubble-light-grey.svg">
       </div>
 
     </main>
 
     <aside class="side-right">
-
+      <img src="../pictures/Screenshot 2025-10-02 145101.png">
     </aside>
+
+    
   </div>
 
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const levelLinks = document.querySelectorAll('.level');
+
+  // Funktion för att markera rätt knapp
+  function setActiveLevel(level) {
+    levelLinks.forEach(link => link.classList.remove('active'));
+    const activeLink = document.querySelector(`.level[data-level="${level}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  }
+
+  // Läs level från URL-hash vid första laddning
+  const params = new URLSearchParams(window.location.hash.substring(1));
+  const currentLevel = params.get('level');
+  if (currentLevel) {
+    setActiveLevel(currentLevel);
+  }
+
+  // Lyssna på klick på alla level-länkar
+  levelLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault(); // förhindra att sidan hoppar till hash
+      const level = link.dataset.level;
+      setActiveLevel(level);
+
+      // Kör din funktion för att ladda nya uppgifter, t.ex.:
+      newQuestion(level);
+
+      // Uppdatera URL-hash (frivilligt)
+      window.location.hash = `level=${level}`;
+    });
+  });
+});
+</script>
 
 </body>
 
