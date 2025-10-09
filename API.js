@@ -1,7 +1,7 @@
 let currentEquation = "";
 let correctAnswer = 0;
 let currentLevel = 1;
-let points = 0;
+let maxQuestionsPerLevel = 10;
 let completedQuestions = {
   1: [],
   2: [],
@@ -31,7 +31,6 @@ async function newQuestion() {                                                  
   document.getElementById("feedback").textContent = "";                               // feedback, correct or wrong
 }
 
-// Generate a question based on the current level
 function generateQuestion(level) {
   let min, max;
   switch (level) {
@@ -44,11 +43,19 @@ function generateQuestion(level) {
   }
   const a = Math.floor(Math.random() * (max - min + 1)) + min;
   const b = Math.floor(Math.random() * (max - min + 1)) + min;
-  return { question: `${a} + ${b}`, answer: a + b };
+
+  const operator = '+';
+  return { a, b, operator, answer: a + b };
 }
 
 function newQuestion() {
   currentQuestion = generateQuestion(currentLevel);
+
+  document.getElementById('question').textContent = `Solve: ${currentQuestion.a} ${currentQuestion.operator} ${currentQuestion.b}`;
+  document.querySelector('.first').textContent = currentQuestion.a;
+  document.querySelector('.second .number').textContent = currentQuestion.b;
+  document.querySelector('.second .plus').textContent = currentQuestion.operator;
+
   document.getElementById('question').textContent = currentQuestion.question;
   document.getElementById('feedback').textContent = '';
   document.getElementById('userAnswer').value = '';
@@ -59,12 +66,20 @@ function updateLevelButtons() {
     const level = parseInt(link.dataset.level);
 
     if (level === 1) {
-      link.classList.remove('locked-level');
+      if (completedQuestions[1].length >= maxQuestionsPerLevel) {
+        link.classList.add('locked-level');
+      } else {
+        link.classList.remove('locked-level');
+      }
       return;
     }
 
-    // unlock level n only if 10 questions are completed on level n-1
-    if (completedQuestions[level - 1] && completedQuestions[level - 1].length >= 10) {
+    // lås upp nästa level om den föregående är klar
+    if (
+      completedQuestions[level - 1] &&
+      completedQuestions[level - 1].length >= maxQuestionsPerLevel &&
+      completedQuestions[level].length < maxQuestionsPerLevel
+    ) {
       link.classList.remove('locked-level');
     } else {
       link.classList.add('locked-level');
@@ -77,34 +92,43 @@ function checkAnswer() {
   const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
 
   if (isCorrect) {
-    points += 10;
-
     completedQuestions[currentLevel].push({
       question: currentQuestion.question,
       answer: currentQuestion.answer
     });
 
     console.log(completedQuestions);
+    if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
+      document.getElementById('feedback').textContent =
+        `Purrfect! ${completedQuestions[currentLevel].length} / ${maxQuestionsPerLevel} on Level ${currentLevel}!`;
+
+      updateLevelButtons();
+
+      // går till nästa level automatiskt, när man kommer till lvl 5 så stannar man kvar där
+      if (currentLevel < 5) {
+        currentLevel++;
+        setTimeout(() => {
+          document.getElementById('feedback').textContent = '';
+          newQuestion();
+        }, 1500); // väntar 1.5 sekunder innan ny fråga
+      }
+      return;
+    }
 
     newQuestion();
-    document.getElementById('feedback').textContent = 
-      `Correct! You have ${points} points! 
-       You have completed ${completedQuestions[currentLevel].length} questions on Level ${currentLevel}!`;
-
     updateLevelButtons();
-
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
 }
 
-// Add event listeners for level buttons
 document.addEventListener('DOMContentLoaded', () => {
+  // loopar igeon alla level knappar
   document.querySelectorAll('.level').forEach(link => {
     link.addEventListener('click', (e) => {
       const selectedLevel = parseInt(link.dataset.level);
 
-      //unclocks next level 
+      //låser upp nästa level 
       if (link.classList.contains('locked-level')) {
         e.preventDefault();
         return;
