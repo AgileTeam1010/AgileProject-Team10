@@ -56,6 +56,7 @@ function newQuestion() {
 
 
 
+
 }
 
 function checkAnswer() {
@@ -63,7 +64,7 @@ function checkAnswer() {
   const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
 
   if (isCorrect) {
-    document.getElementById('feedback').textContent = 'Correct!';
+    document.getElementById('feedback').textContent = 'Purrfect!';
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }

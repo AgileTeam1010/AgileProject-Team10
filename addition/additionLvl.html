@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
   <script src="../API.js"></script>
+  <script src="../levelButton.js"></script>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
         <span class="search-icon">🔍</span>
         <input type="search" placeholder="Search...">
       </div>
-      <a href="../indexlogin.html" class="signinbtn">Sign in / Register</a>
+      <a href="../indexlogin.html" class="signinbtn">Sign In / Register</a>
     </div>
   </header>
 
@@ -41,11 +42,12 @@
       <a class="level" data-level="4" href="#?level=4">Level 4</a>
       <a class="level" data-level="5" href="#?level=5">Level 5</a>
 
-
+      <!--
       <div class="level-link">
         <a href="#">Level 1</a>
         <input type="checkbox">
       </div>
+      -->
 
     </aside>
 
@@ -84,13 +86,14 @@
           <!--<p id="feedback"></p>-->
         </div>
       </div>
-
-      <div class="catLVL-container">
-        <img src="../pictures/cat.png">
-      </div>
-      <div class="speechBubble-container">
-         <p id="feedback">Let's get started!</p>
-        <img src="../pictures/speech-bubble-light-grey.svg">
+      <div class="cat-speech-container">
+        <div class="catLVL-container">
+          <img src="../pictures/cat.png"class="no-click" alt="Cat">
+        </div>
+        <div class="speechBubble-container">
+          <p id="feedback">Let's get started!</p>
+          <img src="../pictures/speech-bubble-light-grey.svg">
+        </div>
       </div>
 
     </main>
@@ -101,42 +104,6 @@
 
     
   </div>
-
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-  const levelLinks = document.querySelectorAll('.level');
-
-  // Funktion för att markera rätt knapp
-  function setActiveLevel(level) {
-    levelLinks.forEach(link => link.classList.remove('active'));
-    const activeLink = document.querySelector(`.level[data-level="${level}"]`);
-    if (activeLink) activeLink.classList.add('active');
-  }
-
-  // Läs level från URL-hash vid första laddning
-  const params = new URLSearchParams(window.location.hash.substring(1));
-  const currentLevel = params.get('level');
-  if (currentLevel) {
-    setActiveLevel(currentLevel);
-  }
-
-  // Lyssna på klick på alla level-länkar
-  levelLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault(); // förhindra att sidan hoppar till hash
-      const level = link.dataset.level;
-      setActiveLevel(level);
-
-      // Kör din funktion för att ladda nya uppgifter, t.ex.:
-      newQuestion(level);
-
-      // Uppdatera URL-hash (frivilligt)
-      window.location.hash = `level=${level}`;
-    });
-  });
-});
-</script>
 
 </body>
 
