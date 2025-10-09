@@ -225,6 +225,32 @@ main {
 }
 
 /*Addition cat bubble*/
+.speech-bubble {
+  position: absolute;
+  bottom: 235px; 
+  left: 50%;   
+  transform: translateX(-50%); 
+  width: 170px; 
+  padding: 10px 6px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: -10px; 
+  left: 50%;
+  transform: translateX(-50%); 
+  border: 10px solid transparent;
+  border-top-color: #ccc; 
+  border-bottom: 0;
+}
+
+
+
 
 .add-cat{
   /*position: relative;
@@ -241,6 +267,7 @@ main {
   
   
 }
+/*
 .addition-bubble{ 
  
   position: absolute;
@@ -258,6 +285,7 @@ main {
   height: auto;
   display: block;
 }
+*/
 /* cat picture addition page*/
 .addition-cat {
     /* relativt main */
