@@ -305,7 +305,7 @@ main {
   max-width: 92%;          
   margin: 1% auto;          
   padding: 30px;           
-  height: 60vh;
+  height: 65vh;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
   position: relative;
 
@@ -405,7 +405,7 @@ main {
   background-color: white;
   padding: 20px;
   margin: 20px;
-  height: 11%;
+  height: 12%;
   justify-content: center;
   border-radius: 10px;
 }
@@ -436,7 +436,7 @@ main {
    background-color: white;
    padding: 20px;
    margin: 20px;
-   height: 38%;
+   height: 42%;
    border-radius: 10px;
    justify-content: center;
 }
