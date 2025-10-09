@@ -54,6 +54,24 @@ function newQuestion() {
   document.getElementById('userAnswer').value = '';
 }
 
+function updateLevelButtons() {
+  document.querySelectorAll('.level').forEach(link => {
+    const level = parseInt(link.dataset.level);
+
+    if (level === 1) {
+      link.classList.remove('locked-level');
+      return;
+    }
+
+    // unlock level n only if 10 questions are completed on level n-1
+    if (completedQuestions[level - 1] && completedQuestions[level - 1].length >= 10) {
+      link.classList.remove('locked-level');
+    } else {
+      link.classList.add('locked-level');
+    }
+  });
+}
+
 function checkAnswer() {
   const userAnswer = document.getElementById('userAnswer').value.trim();
   const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
@@ -73,6 +91,8 @@ function checkAnswer() {
       `Correct! You have ${points} points! 
        You have completed ${completedQuestions[currentLevel].length} questions on Level ${currentLevel}!`;
 
+    updateLevelButtons();
+
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
@@ -81,9 +101,18 @@ function checkAnswer() {
 // Add event listeners for level buttons
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.level').forEach(link => {
-    link.addEventListener('click', () => {
-      currentLevel = parseInt(link.dataset.level); // takes the level from the a-ref clicked
+    link.addEventListener('click', (e) => {
+      const selectedLevel = parseInt(link.dataset.level);
+
+      //unclocks next level 
+      if (link.classList.contains('locked-level')) {
+        e.preventDefault();
+        return;
+      }
+
+      currentLevel = selectedLevel;
       newQuestion();
     });
   });
+  updateLevelButtons(); 
 });
