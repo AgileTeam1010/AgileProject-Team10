@@ -1,13 +1,20 @@
 /* Reset defaults */
-* {
-  margin: 0;
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+
+
+
+*{ margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 /* Body font */
 body {
- font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+ font-family: 'Nunito', sans-serif;
+ background: rgb(251, 240, 177);
 }
 
 /* Header */
@@ -20,6 +27,8 @@ body {
   z-index: 1000;
   box-shadow: 0 2px 2px rgba(0,0,0,0.1);
   height: 5vw;
+  position: fixed;
+  /*border-bottom:   2px solid  rgb(218, 241, 246);*/
 }
 
 
@@ -53,23 +62,12 @@ body {
 .right-header a.signinbtn {
   float: right;
   background-color: #83c0c7;
-  padding: 7px 10px;
+  padding: 7px 7px;
   color: white;
   text-decoration: none;
   font-size: 1.15vw;
   border-radius: 10px;
-}
-
-.right-header a.registerbtn {
-  float: right;
-  background-color: #788789;
-  padding: 7px 10px;
-  color: white;
-  text-decoration: none;
-  font-size: 1.15vw;
   margin-right: 10px;
-  border-radius: 10px;
-
 }
 
 .right-header a.righttablink{
@@ -90,7 +88,7 @@ body {
 /* Layout */
 .content {
   display: flex;
-  height: 100vh;
+  height: 150vh;
 }
 
 /* side bars*/
@@ -103,23 +101,38 @@ body {
 
 .side-left {
     box-shadow: 2px 0 4px -2px rgba(0,0,0,0.3);
+    position: fixed;
+    height: 100%;
+    top: 5vw; 
+    background-color: white;
+   /* border-right: 2px solid rgb(218, 241, 246);*/
   }
 
 .side-right{
-   box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
+  position: relative;
+  height: 100%;
+  top: 5vw; 
+  box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
 }  
 
+.side-right{
+  position: relative;
+  height: 100%;
+  top: 5vw; 
+  box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
+}  
 
 .side-left h1 {
     padding-top: 30px;
     padding-left: 20px;
-    border-bottom: 2px solid rgb(203, 198, 198);
+    border-bottom: 2px dashed #e4edee;
     padding-bottom: 15px;
     margin-bottom: 1px; 
     font-size: 1.3vw;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Nunito';
     color: rgb(87, 85, 85);
     font-weight: normal;
+
   }
 
 .side-left a.level {
@@ -135,24 +148,26 @@ body {
     cursor: pointer;
     font-size: 1.3vw;
     transition: background-color 0.3s;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Nunito';
+  
     word-spacing: 7px;
     border-radius: 10px;
 }
+
+
+
 .side-left a:hover {
     background-color: #ddd;
 }
 
-
   .side-left h2 {
     padding-top: 20px;
     padding-left: 20px;
-    border-bottom: 2px solid rgb(203, 198, 198);
+    border-bottom: 2px dashed #e4edee;
     padding-bottom: 15px;
     margin-top: -20px;
     margin-bottom: 1px; 
     font-size: 1.3vw;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: rgb(87, 85, 85);
     font-weight: normal;
   }
@@ -174,59 +189,88 @@ body {
 }
 
 /* Main column */
+
 main {
   flex: 1;
-  background-color:rgb(251, 240, 177);
+  margin-top: 5%;
+  margin-left: 15%;
+  margin-right:0%;
+  margin-bottom: 0%;
 }
 
 /* board picture*/
 .index-container {
-  width: 100%;
-  position: relative;
-  
+  width: 100%; 
 }
+
 
 .index-container img {
   width: 100%;
-  height: auto;           /* keep aspect ratio */
+  height: auto;           
   display: block;
 }
-
-.textOnBoard {
-  position: absolute;
-  top: 35%;
-  left: 43%;
-  transform: translate(-40%, -50%);
-  color: white;
-  font-family: 'Love Ya Like A Sister', cursive;
-  z-index: 100;   /* make sure it’s on top of the image */
-}
-
-.textOnBoard h1 {
- font-size: 4.5vw;
- font-weight: lighter;
- margin-bottom: 0px;
- white-space: nowrap;
-}
-
-.textOnBoard h3 {
- font-size: 2.3vw;
- font-weight: lighter;
- margin-left: 4vw; 
-}
+  
 
 /*cat picture*/
 
 .cat-container {
+  top: 50vb;
   position: absolute;
-  bottom: 0%;            /* aligns the cat image to bottom of board */
-  left: 60%;            /* center horizontally */
-  transform: translate(-40%, 1%);
-  z-index: 101;         /* above board image */
+  z-index: 100;         /* above board image */
 }
 
 .cat-container img {
   width: 25vw;         /* adjust size of Pusheen */
+  height: auto;
+}
+
+/*Addition cat bubble*/
+
+.add-cat{
+  /*position: relative;
+    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;  
+  height: 30vh; */
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem; 
+  
+  
+}
+.addition-bubble{ 
+ 
+  position: absolute;
+  bottom: 30%;            
+  left: 50%;
+  transform:translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;  
+
+}
+.addition-bubble img{
+    width: 12vw;
+  height: auto;
+  display: block;
+}
+/* cat picture addition page*/
+.addition-cat {
+    /* relativt main */
+  bottom: -0.6rem;                /* small overlap */
+  left: -3.75rem;  
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.addition-cat img {
+  width: 20vw;   /* lagom storlek */
   height: auto;
 }
 
@@ -243,8 +287,332 @@ main {
     flex-direction: column;
     height: auto;
   }
+  
+}
 
-  .side-left, .side-right, main {
-    width: 100%;
+@media (max-width: 768px) {
+  .textOnBoard h1 {
+    font-size: 6vw;
+  }
+  .textOnBoard h3 {
+    font-size: 4vw;
   }
 }
+/* White info box in the middle of the front page */
+.white-section {
+  background-color: #ffffff;   
+  
+  max-width: 92%;          
+  margin: 1% auto;          
+  padding: 30px;           
+  height: 60vh;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  position: relative;
+
+}
+
+.white-section h2 {
+  margin-bottom: 15px;   
+  color: #d38b4b;
+  font-size: 2vw;
+}
+.white-section p {
+  font-size: 1.3vw;         
+  color: #333;
+}
+
+.bob-cat img{
+  width: 17vw;
+  margin-top: 3vh;
+}
+
+
+.p-right {
+  position: absolute;
+  top: 45%;              /* vertical position */
+  left: 30%;             /* start around the middle */
+  width: 63%;            /* take right side of container */
+  text-align: left;      /* keep normal text flow */
+}
+
+/* Search box on the front page */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  max-width: 125px;
+  margin: 5px auto;
+  width: 100%;
+}
+
+.search-box input[type="search"] {
+  border: none;         
+  outline: none;      
+  font-size: 1.1vw;
+  background: transparent; 
+  flex: 1;  
+  min-width: 0; 
+}
+.search-icon {
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+  color: #222;
+}
+
+
+
+/*level buttons with checkmark in it*/
+
+.level-link a{
+   
+   text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    width: 100%;
+}
+
+
+.level-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 25px;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.3vw;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  transition: background-color 0.3s;
+}
+
+.level-link:hover {
+  background-color: #ddd; 
+}
+
+.level-link input[type="checkbox"] {
+  margin-left: 10px; 
+}
+
+.level.active {
+  background-color: #83c0c7;
+  color: white;
+}
+/*Top box foor different topics */
+.topic-top-box{
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  height: 11%;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.topic-top-box h2{ 
+  color: #d38b4b;
+  font-size: 3vw;
+}
+.topic-top-box p{ 
+  color: black;
+  font-size: 1.3vw;
+}
+
+/*video on addition pa*/
+
+.video {
+  width: 80%;           
+  aspect-ratio: 16 / 9; 
+  margin: 0 auto;    
+}
+
+.video iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.explanation-box {
+   background-color: white;
+   padding: 20px;
+   margin: 20px;
+   height: 38%;
+   border-radius: 10px;
+   justify-content: center;
+}
+
+
+
+
+.explanation-box p{ 
+  color: black;
+  font-size: 1.3vw;
+}
+
+/*cat food picture in addition*/
+.cat-food{
+  display: flex;
+  justify-content: center;
+}
+
+.cat-food img{
+  max-width: 60%;
+}
+
+
+/*for the math display*/
+
+.container {
+  width: 90%;           /* container width adjusts with screen */
+  height: 30vh; 
+  max-width: 14vw;     /* optional max width */
+  margin-top: 12vh;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
+.container p{
+  
+  font-size: 1.2em;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;  /* centers buttons horizontally */
+  gap: 10px;                /* space between buttons */
+  margin-top: 2vh;
+}
+
+.container button{
+  background-color: #83c0c7;
+  padding: 7px 7px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1vw;
+  border-radius: 10px;
+  border:none;
+  cursor: pointer;
+  font-family: 'Nunito';
+  
+}
+
+.container button:hover{
+  background-color: #829799;
+  color: white;
+}
+
+.first,
+.second {
+  text-align: right;
+  width: 100%;
+  font-size: 2em;
+ 
+}
+
+.plus {
+  float: left;
+  margin-right: 5px;          /* spacing between + and number */
+  font-size: 1em;
+  
+}
+
+.number {
+  font-size: 1em;
+}
+
+.third {
+  width: 100%;
+  margin-top: 5px;
+  text-align: right;
+}
+
+.third .line {
+  float:right;
+  display: block;              /* full width block */
+  width: 100%;                 /* spans entire container */
+  border-top: 2px solid black;
+  margin-bottom: 5px;
+}
+
+input#userAnswer {
+  width: 100%;                   
+  text-align: right;
+  font-size: 1.5em;
+  padding: 2px;
+  font-family: 'Nunito';
+
+}
+
+
+
+.cat-speech-container{
+  position: relative;
+   pointer-events: none;
+
+}
+
+/* Cat on addition level*/
+
+.catLVL-container{
+  
+  margin-top: -15vh;
+ 
+
+}
+
+.catLVL-container img{
+  margin-left: 43vw;
+  width: 30%;
+  height: 30%;
+
+    
+  
+}
+
+/* Speech-bubble on addition level*/
+
+.speechBubble-container{
+       /* independent of cat */
+             /* move bubble up */
+     /* fixed relative to viewport */
+  width: 15vw;               /* scales with screen */
+  position: absolute;       /* relative to cat container */
+  bottom: 75%;             /* above cat */
+  left: 83%;                /* center horizontally */
+  transform: translateX(-50%) translateY(-10%);
+  width: 130%;              /* slightly bigger than cat */
+  max-width: 250px;
+  height: auto;
+}
+
+.speechBubble-container p{
+  font-size: 1.2em;
+  transform: translate(23%, 340%);
+  color: black;
+  pointer-events: none;
+}
+
+.speechBubble-container img{
+  width: 100%;
+  height: auto;
+  transform: scaleX(-1) rotate(-10deg);  /* your original rotation */
+  display: block;
+  z-index: -1;  
+  position: relative;
+}
+
+.level-box{
+  background-color: white;
+  background-image:
+    linear-gradient(to right, rgb(192, 191, 191) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom,rgb(192, 191, 191) 0.5px, transparent 0.5px);
+  background-size: 4.5vh 4.5vh; /* size of each “grid square” */
+  padding: 4vh;              /* space inside the box */
+  width: 25vw;               /* optional fixed width */
+  margin: 3vw auto;          /* centers the box on the page */
+  border-radius: 10px;
+  text-align: center;   
+}
+
+
+

@@ -1,58 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No-Gap Layout</title>
   <link rel="stylesheet" href="../style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet"> 
-  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">    
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
   <script src="../API.js"></script>
+  <styl>
+  </styl>
 </head>
-<body>
-  <header class = top-header>
-    <div class = "left-header">
-        <a href="../index.html"><input type="image" src="../pictures/computercat.png" name="saveForm" class="btTxt submit" id="saveForm"/></a>
-        <h1>CatCulation</h1> 
-    </div> 
 
-    <div class = "right-header">
-        <a href="#about" class="righttablink">About us</a>
-        <a href="#about" class="righttablink">Contact</a>
-        <a href="#about" class="righttablink">FAQ</a>
-        <a href="#about" class="signinbtn">Sign in</a>
-        <a href="#home" class="registerbtn">Register</a>
+<body>
+  <header class=top-header>
+    <div class="left-header">
+      <a href="../index.html"><input type="image" src="../pictures/computercat.png" name="saveForm" class="btTxt submit"
+          id="saveForm" /></a>
+      <h1>CatCulation</h1>
+    </div>
+
+    <div class="right-header">
+      <a href="#about" class="righttablink">About us</a>
+      <a href="#about" class="righttablink">FAQ</a>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="search" placeholder="Search...">
+          </div>
+      <a href="../indexlogin.html" class="signinbtn">Sign In / Register</a>
     </div>
   </header>
 
   <div class="content">
     <aside class="side-left">
       <a href="../index.html" class="arrow">←</a>
-        <h1>Addition</h1>
-        <a class="level" data-level="1" href="#">Level 1</a>
-        <a class="level" data-level="2" href="#">Level 2</a>
-        <a class="level" data-level="3" href="#">Level 3</a>
-        <a class="level" data-level="4" href="#">Level 4</a>
-        <a class="level" data-level="5" href="#">Level 5</a>
+      <h2>Addition</h2>
+      <a class="level" data-level="1" href="additionLvl.html?level=1">Level 1</a>
+      <a class="level" data-level="2" href="additionLvl.html?level=2">Level 2</a>
+      <a class="level" data-level="3" href="additionLvl.html?level=3">Level 3</a>
+      <a class="level" data-level="4" href="additionLvl.html?level=4">Level 4</a>
+      <a class="level" data-level="5" href="additionLvl.html?level=5">Level 5</a>
+  
+      <div class="add-cat">
+        <div class="addition-bubble">
+          <img src="../pictures/AddBubble.png">
+        </div>
+        <div class="addition-cat">
+        <img src="../pictures/pusheen.png">
+        </div>
+      </div>
     </aside>
 
     <main>
-      <div class="input-container"> <!-- Generate equation -->
-          <p id="question">Press "New Question" to start!</p>
-          <input type="text" id="userAnswer" placeholder="Your answer">
-          <button onclick="checkAnswer()">Submit</button>
-          <button onclick="newQuestion()">New Question</button>
-          <p id="feedback"></p>
+      <div class="topic-top-box">
+        <h2>Addition</h2>
+        <p>is shown using the + symbol</p>
       </div>
+
+      <div class="explanation-box">
+        <p>Addition is when you put two groups of things together to see how many you have in total.
+          <br><br>The addition of two whole numbers results in the total or sum of those values combined.
+          <br><br>For example, if we have two groups of cat food cans, one with three cans and the
+          other with two cans. We can add them together to see how many we have in total, which would be five cat food cans.
+          This observation is expressed as "3 + 2 = 5",
+          which is read as "three plus two equals five".
+        </p>
+        <br>
+        <div class="cat-food">
+          <img src="../pictures/add-cat-food.png">  
+        </div>   
+        <p> Watch the video below to learn more about addition!</p>
+      </div>
+
+      <div class="video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/VScM8Z8Jls0?si=UEMlrsM0LTLA-C9a"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+      </div>
+
+
+
+
     </main>
 
-   
+
 
     <aside class="side-right">
-    
+      <img src="../pictures/Screenshot 2025-10-02 145101.png">
     </aside>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const levelLinks = document.querySelectorAll('.level');
+
+      // Läs vilken level som står i URL
+      const params = new URLSearchParams(window.location.search);
+      const currentLevel = params.get('level');
+
+      if (currentLevel) {
+        const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  </script>
 
 </body>
+
 </html>
