@@ -1,7 +1,7 @@
 let currentEquation = "";
 let correctAnswer = 0;
 let currentLevel = 1;
-let maxQuestionsPerLevel = 10;
+let maxQuestionsPerLevel = 2;
 let completedQuestions = {
   1: [],
   2: [],
@@ -57,7 +57,7 @@ function newQuestion() {
   document.querySelector('.second .plus').textContent = currentQuestion.operator;
 
   document.getElementById('question').textContent = currentQuestion.question;
-  document.getElementById('feedback').textContent = '';
+  // document.getElementById('feedback').textContent = '';
   document.getElementById('userAnswer').value = '';
 }
 
@@ -97,10 +97,16 @@ function checkAnswer() {
       answer: currentQuestion.answer
     });
 
-    console.log(completedQuestions);
+    console.log(completedQuestions); // visar i console frågor och svar
+
+    // feedback
+    document.getElementById('feedback').textContent =
+      `Purrfect! ${completedQuestions[currentLevel].length} 
+      / ${maxQuestionsPerLevel} on Level ${currentLevel}!`;
+
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       document.getElementById('feedback').textContent =
-        `Purrfect! ${completedQuestions[currentLevel].length} / ${maxQuestionsPerLevel} on Level ${currentLevel}!`;
+        `Purrfect! You have completed Level ${currentLevel}!`;
 
       updateLevelButtons();
 
@@ -114,7 +120,6 @@ function checkAnswer() {
       }
       return;
     }
-
     newQuestion();
     updateLevelButtons();
   } else {
@@ -135,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       currentLevel = selectedLevel;
-      newQuestion();
+      // newQuestion();
     });
   });
   updateLevelButtons(); 
