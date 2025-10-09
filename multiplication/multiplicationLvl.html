@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No-Gap Layout</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+  <script src="../API.js"></script>
+  <script src="../levelButton.js"></script>
+</head>
+
+<body>
+  <header class=top-header>
+    <div class="left-header">
+      <a href="../index.html"><input type="image" src="../pictures/computercat.png" name="saveForm" class="btTxt submit"
+          id="saveForm" /></a>
+      <h1>CatCulation</h1>
+    </div>
+
+    <div class="right-header">
+      <a href="#about" class="righttablink">About us</a>
+      <a href="#about" class="righttablink">FAQ</a>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="search" placeholder="Search...">
+      </div>
+      <a href="../indexlogin.html" class="signinbtn">Sign In / Register</a>
+    </div>
+  </header>
+
+
+  <div class="content">
+    <aside class="side-left">
+      <a href="addition.html" class="arrow">←</a>
+      <h2>Addition</h2>
+      <a class="level" data-level="1" href="#?level=1">Level 1</a>
+      <a class="level" data-level="2" href="#?level=2">Level 2</a>
+      <a class="level" data-level="3" href="#?level=3">Level 3</a>
+      <a class="level" data-level="4" href="#?level=4">Level 4</a>
+      <a class="level" data-level="5" href="#?level=5">Level 5</a>
+
+      <!--
+      <div class="level-link">
+        <a href="#">Level 1</a>
+        <input type="checkbox">
+      </div>
+      -->
+
+    </aside>
+
+
+
+    <main>
+     <!---<div class="input-container"> 
+        <p id="question">Press "New Question" to start!</p>
+        <input type="text" id="userAnswer" placeholder="Your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <button onclick="newQuestion()">New Question</button>
+        <p id="feedback"></p>
+      </div>-->
+
+     
+      <div class="level-box">
+        <div class="container">
+        <p id="question">Press "New Question" to start!</p>
+
+          <div class="first"> </div>
+          <div class="second">
+            <div class="plus">+</div>
+            <div class="number"> </div>
+          </div>
+          <div class="third">
+              <div class="line"></div>
+            <input type="text" id="userAnswer" placeholder="Your answer">
+            <div class="result"></div>
+          </div>
+
+          <div class="buttons">
+            <button onclick="checkAnswer()">Submit</button>
+            <button onclick="newQuestion()">New Question</button>
+          </div>
+
+          <!--<p id="feedback"></p>-->
+        </div>
+      </div>
+      <div class="cat-speech-container">
+        <div class="catLVL-container">
+          <img src="../pictures/cat.png"class="no-click" alt="Cat">
+        </div>
+        <div class="speechBubble-container">
+          <p id="feedback">Let's get started!</p>
+          <img src="../pictures/speech-bubble-light-grey.svg">
+        </div>
+      </div>
+
+    </main>
+
+    <aside class="side-right">
+      <img src="../pictures/Screenshot 2025-10-02 145101.png">
+    </aside>
+
+    
+  </div>
+
+</body>
+
+</html>
