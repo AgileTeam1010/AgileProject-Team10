@@ -621,10 +621,37 @@ input#userAnswer {
 }
 
 .locked-level {
-  color: red !important;
   pointer-events: none;
   cursor: not-allowed;
-  opacity: 0.7;
+}
+
+#progressDisplay {
+  font-family: 'Baloo 2', 'Nunito', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.5em 1em;
+  margin-bottom: 0.5em;
+  background: rgb(251, 240, 177);
+  border-radius: 8px;
+  max-width: 95vw;
+  overflow-x: auto;
+  white-space: nowrap;
+  transition: font-size 0.2s;
+}
+
+/* Responsive: shrink font size if screen is small or text overflows */
+@media (max-width: 600px) {
+  #progressDisplay {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  #progressDisplay {
+    font-size: 0.85rem;
+  }
 }
 
 

@@ -57,7 +57,6 @@ function newQuestion() {
   document.querySelector('.second .plus').textContent = currentQuestion.operator;
 
   document.getElementById('question').textContent = currentQuestion.question;
-  // document.getElementById('feedback').textContent = '';
   document.getElementById('userAnswer').value = '';
 }
 
@@ -65,9 +64,13 @@ function updateLevelButtons() {
   document.querySelectorAll('.level').forEach(link => {
     const level = parseInt(link.dataset.level);
 
+    // Remove any previous checkmark
+    link.textContent = `Level ${level}`;
+
     if (level === 1) {
       if (completedQuestions[1].length >= maxQuestionsPerLevel) {
         link.classList.add('locked-level');
+        link.textContent += ' ✔️';
       } else {
         link.classList.remove('locked-level');
       }
@@ -83,6 +86,10 @@ function updateLevelButtons() {
       link.classList.remove('locked-level');
     } else {
       link.classList.add('locked-level');
+    }
+
+    if (completedQuestions[level].length >= maxQuestionsPerLevel) {
+      link.textContent += ' ✔️';
     }
   });
 }
@@ -101,14 +108,14 @@ function checkAnswer() {
 
     // feedback
     document.getElementById('feedback').textContent =
-      `Purrfect! ${completedQuestions[currentLevel].length} 
-      / ${maxQuestionsPerLevel} on Level ${currentLevel}!`;
+      'Purrfect!';
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       document.getElementById('feedback').textContent =
-        `Purrfect! You have completed Level ${currentLevel}!`;
+        'Purrfect!';
 
       updateLevelButtons();
+      updateProgressDisplay();
 
       // går till nästa level automatiskt, när man kommer till lvl 5 så stannar man kvar där
       if (currentLevel < 5) {
@@ -116,15 +123,24 @@ function checkAnswer() {
         setTimeout(() => {
           document.getElementById('feedback').textContent = '';
           newQuestion();
+          updateProgressDisplay();
         }, 1500); // väntar 1.5 sekunder innan ny fråga
       }
       return;
     }
     newQuestion();
     updateLevelButtons();
+    updateProgressDisplay();
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
+}
+
+function updateProgressDisplay() {
+  const completed = completedQuestions[currentLevel].length;
+  const star = completed >= maxQuestionsPerLevel ? '⭐' : '';
+  document.getElementById('progressDisplay').textContent =
+    `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -140,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       currentLevel = selectedLevel;
-      // newQuestion();
     });
   });
-  updateLevelButtons(); 
+  updateLevelButtons();
+  updateProgressDisplay(); 
 });
