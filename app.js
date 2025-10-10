@@ -41,3 +41,10 @@ async function signup(event) {
     errorElement.textContent = error.message; // show error if signup fails
   }
 }
+
+function toggleForms() {
+  document.getElementById("loginForm").classList.toggle("hidden");
+  document.getElementById("signupForm").classList.toggle("hidden");
+  document.getElementById("error").textContent = "";
+  document.getElementById("signupError").textContent = "";
+}
