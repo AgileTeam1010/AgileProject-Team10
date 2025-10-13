@@ -1,72 +1,93 @@
-let currentEquation = "";
-let correctAnswer = 0;
+let currentQuestion = null;
 let currentLevel = 1;
-let maxQuestionsPerLevel = 2;
-let completedQuestions = {
-  1: [],
-  2: [],
-  3: [],
-  4: [],
-  5: []
-};
+const maxQuestionsPerLevel = 2;
+const completedQuestions = { 1: [], 2: [], 3: [], 4: [], 5: [] };
 
-//Function to generate a new question/Equation
-async function newQuestion() {                                                        // Lägg till så att man kan inputta operator
-  
-  // Generate random numbers and an operator
-  let num1 = Math.floor(Math.random() * 10) + 1;
-  let num2 = Math.floor(Math.random() * 10) + 1;
-  let operators = ["+"]; // Only addition for now
-  let operator = operators[Math.floor(Math.random() * operators.length)];             // randomly selects an operator from the array above, but only addition for now
-
-  currentEquation = `${num1} ${operator} ${num2}`;                                    // random equation with an operator, can be extended with more operators above
-
-  // Use Math.js API to evaluate
-  let url = `https://api.mathjs.org/v4/?expr=${encodeURIComponent(currentEquation)}`; // linking the API to the script here, and saves the equation in the URL
-  let response = await fetch(url);                                                    // checks with the API if the equation is correct by sedning the URL to the API
-  correctAnswer = await response.text();                                              // the correct answer is replied and gets stored here
-
-  document.getElementById("question").textContent = `Solve: ${currentEquation}`;      // displays the equation to the user
-  document.getElementById("userAnswer").value = "";                                   // user input 
-  document.getElementById("feedback").textContent = "";                               // feedback, correct or wrong
+// Hämta valt räknesätt från sidan (data-operator) – default '+'
+function getCurrentOperator() {
+  const root = document.getElementById('gameRoot');
+  const op = root?.dataset?.operator || '+';
+  return op; // '+' eller '÷'
 }
 
-function generateQuestion(level) {
-  let min, max;
+function levelRange(level) {
   switch (level) {
-    case 1: min = 1; max = 10; break;
-    case 2: min = 10; max = 50; break;
-    case 3: min = 50; max = 200; break;
-    case 4: min = 100; max = 500; break;
-    case 5: min = 500; max = 1000; break;
-    default: min = 1; max = 10;
+    case 1: return { min: 1,   max: 10  };
+    case 2: return { min: 10,  max: 50  };
+    case 3: return { min: 50,  max: 200 };
+    case 4: return { min: 100, max: 500 };
+    case 5: return { min: 500, max: 1000 };
+    default: return { min: 1, max: 10 };
   }
-  const a = Math.floor(Math.random() * (max - min + 1)) + min;
-  const b = Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-  const operator = '+';
-  return { a, b, operator, answer: a + b };
+// Slumpar heltal i [min, max]
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Genererar en uppgift beroende på operator:
+ * '+' => a + b, svar = a + b
+ * '÷' => a ÷ b, svar = q  (a konstrueras som b*q så det blir heltal utan rest)
+ */
+function generateQuestion(level, operator) {
+  const { min, max } = levelRange(level);
+
+  if (operator === '+') {
+    const a = randInt(min, max);
+    const b = randInt(min, max);
+    return {
+      a, b, operator: '+',
+      answer: a + b,
+      question: `Solve: ${a} + ${b}`
+    };
+  }
+
+  if (operator === '÷') {
+    // Välj divisor b och kvot q så att a = b*q
+    // Se upp så b != 0.
+    const b = randInt(Math.max(1, Math.min(10, min)), Math.max(10, Math.min(12, max))); // håll divisor liten i början
+    const q = randInt(min, max);
+    const a = b * q;
+
+    return {
+      a, b, operator: '÷',
+      answer: q,
+      question: `Solve: ${a} ÷ ${b}`
+    };
+  }
+
+  // Fallback: addition
+  const a = randInt(min, max);
+  const b = randInt(min, max);
+  return {
+    a, b, operator: '+',
+    answer: a + b,
+    question: `Solve: ${a} + ${b}`
+  };
 }
 
 function newQuestion() {
-  currentQuestion = generateQuestion(currentLevel);
+  const operator = getCurrentOperator();
+  currentQuestion = generateQuestion(currentLevel, operator);
 
-  document.getElementById('question').textContent = `Solve: ${currentQuestion.a} ${currentQuestion.operator} ${currentQuestion.b}`;
+  // Visa uppgiften
+  document.getElementById('question').textContent = currentQuestion.question;
   document.querySelector('.first').textContent = currentQuestion.a;
   document.querySelector('.second .number').textContent = currentQuestion.b;
   document.querySelector('.second .plus').textContent = currentQuestion.operator;
 
-  document.getElementById('question').textContent = currentQuestion.question;
   document.getElementById('userAnswer').value = '';
+  document.getElementById('feedback').textContent = '';
 }
 
 function updateLevelButtons() {
   document.querySelectorAll('.level').forEach(link => {
     const level = parseInt(link.dataset.level);
-
-    // Remove any previous checkmark
     link.textContent = `Level ${level}`;
 
+    // Lås upp logik
     if (level === 1) {
       if (completedQuestions[1].length >= maxQuestionsPerLevel) {
         link.classList.add('locked-level');
@@ -77,7 +98,6 @@ function updateLevelButtons() {
       return;
     }
 
-    // lås upp nästa level om den föregående är klar
     if (
       completedQuestions[level - 1] &&
       completedQuestions[level - 1].length >= maxQuestionsPerLevel &&
@@ -95,8 +115,15 @@ function updateLevelButtons() {
 }
 
 function checkAnswer() {
-  const userAnswer = document.getElementById('userAnswer').value.trim();
-  const isCorrect = parseInt(userAnswer, 10) === currentQuestion.answer;
+  const userAnswerRaw = document.getElementById('userAnswer').value.trim();
+  if (!userAnswerRaw) {
+    document.getElementById('feedback').textContent = 'Type an answer first!';
+    return;
+  }
+
+  // Heltalssvar (division är konstruerad så att svaret är heltal)
+  const userAnswer = parseInt(userAnswerRaw, 10);
+  const isCorrect = userAnswer === currentQuestion.answer;
 
   if (isCorrect) {
     completedQuestions[currentLevel].push({
@@ -104,30 +131,23 @@ function checkAnswer() {
       answer: currentQuestion.answer
     });
 
-    console.log(completedQuestions); // visar i console frågor och svar
-
-    // feedback
-    document.getElementById('feedback').textContent =
-      'Purrfect!';
+    document.getElementById('feedback').textContent = 'Purrfect!';
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
-      document.getElementById('feedback').textContent =
-        'Purrfect!';
-
       updateLevelButtons();
       updateProgressDisplay();
 
-      // går till nästa level automatiskt, när man kommer till lvl 5 så stannar man kvar där
       if (currentLevel < 5) {
         currentLevel++;
         setTimeout(() => {
           document.getElementById('feedback').textContent = '';
           newQuestion();
           updateProgressDisplay();
-        }, 1500); // väntar 1.5 sekunder innan ny fråga
+        }, 1200);
       }
       return;
     }
+
     newQuestion();
     updateLevelButtons();
     updateProgressDisplay();
@@ -143,21 +163,28 @@ function updateProgressDisplay() {
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
+// Init: koppla level-knappar och progress
 document.addEventListener('DOMContentLoaded', () => {
-  // loopar igeon alla level knappar
+  // Läs level från URL-hash (?level=X)
+  const params = new URLSearchParams(window.location.hash.replace('#', ''));
+  const levelParam = parseInt(params.get('level'), 10);
+  if (!Number.isNaN(levelParam) && levelParam >= 1 && levelParam <= 5) {
+    currentLevel = levelParam;
+  }
+
   document.querySelectorAll('.level').forEach(link => {
     link.addEventListener('click', (e) => {
-      const selectedLevel = parseInt(link.dataset.level);
-
-      //låser upp nästa level 
+      const selectedLevel = parseInt(link.dataset.level, 10);
       if (link.classList.contains('locked-level')) {
         e.preventDefault();
         return;
       }
-
       currentLevel = selectedLevel;
+      updateProgressDisplay();
+      newQuestion();
     });
   });
+
   updateLevelButtons();
-  updateProgressDisplay(); 
+  updateProgressDisplay();
 });
