@@ -37,36 +37,35 @@ function generateQuestion(level, operator) {
   if (operator === '+') {
     const a = randInt(min, max);
     const b = randInt(min, max);
-    return {
-      a, b, operator: '+',
-      answer: a + b,
-      question: `Solve: ${a} + ${b}`
-    };
+    return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
+  }
+
+  if (operator === '−') {
+    const a = randInt(min, max);
+    const b = randInt(min, a);
+    return { a, b, operator: '−', answer: a - b, question: `Solve: ${a} − ${b}` };
+  }
+
+  if (operator === '×') {
+    const a = randInt(min, max);
+    const b = randInt(min, max);
+    return { a, b, operator: '×', answer: a * b, question: `Solve: ${a} × ${b}` };
   }
 
   if (operator === '÷') {
-    // Välj divisor b och kvot q så att a = b*q
-    // Se upp så b != 0.
-    const b = randInt(Math.max(1, Math.min(10, min)), Math.max(10, Math.min(12, max))); // håll divisor liten i början
+    const b = randInt(Math.max(1, Math.min(10, min)), Math.max(10, Math.min(12, max)));
     const q = randInt(min, max);
     const a = b * q;
-
-    return {
-      a, b, operator: '÷',
-      answer: q,
-      question: `Solve: ${a} ÷ ${b}`
-    };
+    return { a, b, operator: '÷', answer: q, question: `Solve: ${a} ÷ ${b}` };
   }
 
-  // Fallback: addition
+  // fallback
   const a = randInt(min, max);
   const b = randInt(min, max);
-  return {
-    a, b, operator: '+',
-    answer: a + b,
-    question: `Solve: ${a} + ${b}`
-  };
+  return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
 }
+
+
 
 function newQuestion() {
   const operator = getCurrentOperator();
