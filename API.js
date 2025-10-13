@@ -34,6 +34,12 @@ function randInt(min, max) {
 function generateQuestion(level, operator) {
   const { min, max } = levelRange(level);
 
+  // 👇 NEW: random operator if "mixed"
+  if (operator === 'mixed') {
+    const allOps = ['+', '−', '×', '÷'];
+    operator = allOps[Math.floor(Math.random() * allOps.length)];
+  }
+
   if (operator === '+') {
     const a = randInt(min, max);
     const b = randInt(min, max);
