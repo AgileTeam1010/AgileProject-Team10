@@ -53,17 +53,55 @@ function generateQuestion(level, operator) {
   }
 
   if (operator === '×') {
-    const a = randInt(min, max);
-    const b = randInt(min, max);
-    return { a, b, operator: '×', answer: a * b, question: `Solve: ${a} × ${b}` };
+  // Keep numbers small at first, scale gradually with level
+  let aMax, bMax;
+
+  switch (level) {
+    case 1:
+      aMax = 5;  bMax = 5; break;      // 1×1 to 5×5
+    case 2:
+      aMax = 8;  bMax = 8; break;      // 1×1 to 8×8
+    case 3:
+      aMax = 10; bMax = 10; break;     // 1×1 to 10×10 (full table)
+    case 4:
+      aMax = 15; bMax = 12; break;     // a bit larger
+    case 5:
+      aMax = 20; bMax = 15; break;     // bigger but still reasonable
+    default:
+      aMax = 10; bMax = 10;
   }
 
-  if (operator === '÷') {
-    const b = randInt(Math.max(1, Math.min(10, min)), Math.max(10, Math.min(12, max)));
-    const q = randInt(min, max);
-    const a = b * q;
-    return { a, b, operator: '÷', answer: q, question: `Solve: ${a} ÷ ${b}` };
+  const a = randInt(1, aMax);
+  const b = randInt(1, bMax);
+  return { a, b, operator: '×', answer: a * b, question: `Solve: ${a} × ${b}` };
+}
+
+if (operator === '÷') {
+  // Smaller divisor and quotient for easier, cleaner divisions
+  let divisorMax, quotientMax;
+
+  switch (level) {
+    case 1:
+      divisorMax = 5;  quotientMax = 10; break;   // e.g. 20 ÷ 4 = 5
+    case 2:
+      divisorMax = 8;  quotientMax = 15; break;
+    case 3:
+      divisorMax = 10; quotientMax = 25; break;
+    case 4:
+      divisorMax = 12; quotientMax = 40; break;
+    case 5:
+      divisorMax = 15; quotientMax = 50; break;
+    default:
+      divisorMax = 10; quotientMax = 20;
   }
+
+  const b = randInt(2, divisorMax);   // divisor
+  const q = randInt(2, quotientMax);  // quotient
+  const a = b * q;                    // dividend (always clean division)
+
+  return { a, b, operator: '÷', answer: q, question: `Solve: ${a} ÷ ${b}` };
+}
+
 
   // fallback
   const a = randInt(min, max);
