@@ -48,3 +48,16 @@ function toggleForms() {
   document.getElementById("error").textContent = "";
   document.getElementById("signupError").textContent = "";
 }
+
+document.getElementById("forgotPassword").onclick = async function(event) {
+  event.preventDefault();
+  const email = prompt("Enter your email to reset your password:");
+  if (!email) return;
+
+  try {
+    await window._sendPasswordResetEmail(window._auth, email);
+    alert("Password reset email sent! Check your inbox.");
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+};
