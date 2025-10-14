@@ -37,7 +37,7 @@
         <p id="error" class="error" role="alert" aria-live="polite"></p>
 
         <div class="meta">
-          <a href="#" class="link">Forgot password?</a>
+          <a href="#" class="link" id="forgotPassword">Forgot password?</a>
           <span>•</span>
           <!-- link to show signup form -->
           <a href="#" class="link" onclick="toggleForms()">Create account</a>
@@ -77,7 +77,7 @@
   <!-- Firebase SDK setup -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
     // Firebase config
     const firebaseConfig = {
@@ -98,6 +98,7 @@
     window._auth = auth;
     window._signIn = signInWithEmailAndPassword;
     window._signUp = createUserWithEmailAndPassword;
+    window._sendPasswordResetEmail = sendPasswordResetEmail;
   </script>
 
   <!-- Main app logic -->

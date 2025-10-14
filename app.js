@@ -41,3 +41,23 @@ async function signup(event) {
     errorElement.textContent = error.message; // show error if signup fails
   }
 }
+
+function toggleForms() {
+  document.getElementById("loginForm").classList.toggle("hidden");
+  document.getElementById("signupForm").classList.toggle("hidden");
+  document.getElementById("error").textContent = "";
+  document.getElementById("signupError").textContent = "";
+}
+
+document.getElementById("forgotPassword").onclick = async function(event) {
+  event.preventDefault();
+  const email = prompt("Enter your email to reset your password:");
+  if (!email) return;
+
+  try {
+    await window._sendPasswordResetEmail(window._auth, email);
+    alert("Password reset email sent! Check your inbox.");
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+};
