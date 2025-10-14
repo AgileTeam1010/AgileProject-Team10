@@ -225,6 +225,32 @@ main {
 }
 
 /*Addition cat bubble*/
+.speech-bubble {
+  position: absolute;
+  bottom: 235px; 
+  left: 50%;   
+  transform: translateX(-50%); 
+  width: 170px; 
+  padding: 10px 6px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: -10px; 
+  left: 50%;
+  transform: translateX(-50%); 
+  border: 10px solid transparent;
+  border-top-color: #ccc; 
+  border-bottom: 0;
+}
+
+
+
 
 .add-cat{
   /*position: relative;
@@ -241,6 +267,7 @@ main {
   
   
 }
+/*
 .addition-bubble{ 
  
   position: absolute;
@@ -258,6 +285,7 @@ main {
   height: auto;
   display: block;
 }
+*/
 /* cat picture addition page*/
 .addition-cat {
     /* relativt main */
@@ -305,7 +333,7 @@ main {
   max-width: 92%;          
   margin: 1% auto;          
   padding: 30px;           
-  height: 60vh;
+  height: 65vh;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
   position: relative;
 
@@ -405,7 +433,7 @@ main {
   background-color: white;
   padding: 20px;
   margin: 20px;
-  height: 11%;
+  height: 12%;
   justify-content: center;
   border-radius: 10px;
 }
@@ -436,7 +464,7 @@ main {
    background-color: white;
    padding: 20px;
    margin: 20px;
-   height: 38%;
+   height: 42%;
    border-radius: 10px;
    justify-content: center;
 }
@@ -612,6 +640,46 @@ input#userAnswer {
   margin: 3vw auto;          /* centers the box on the page */
   border-radius: 10px;
   text-align: center;   
+}
+
+.level {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.locked-level {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+#progressDisplay {
+  font-family: 'Baloo 2', 'Nunito', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.5em 1em;
+  margin-bottom: 0.5em;
+  background: rgb(251, 240, 177);
+  border-radius: 8px;
+  max-width: 95vw;
+  overflow-x: auto;
+  white-space: nowrap;
+  transition: font-size 0.2s;
+}
+
+/* Responsive: shrink font size if screen is small or text overflows */
+@media (max-width: 600px) {
+  #progressDisplay {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  #progressDisplay {
+    font-size: 0.85rem;
+  }
 }
 
 
