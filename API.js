@@ -114,12 +114,32 @@ if (operator === '÷') {
 function newQuestion() {
   const operator = getCurrentOperator();
   currentQuestion = generateQuestion(currentLevel, operator);
+  document.getElementById('question').textContent = currentQuestion.question;
 
   // Visa uppgiften
-  document.getElementById('question').textContent = currentQuestion.question;
+  /*
   document.querySelector('.first').textContent = currentQuestion.a;
   document.querySelector('.second .number').textContent = currentQuestion.b;
-  document.querySelector('.second .plus').textContent = currentQuestion.operator;
+  document.querySelector('.second .plus').textContent = currentQuestion.operator;*/
+
+
+  // Shared logic
+  const firstEl = document.querySelector('.first');
+  const secondEl = document.querySelector('.second');
+
+  // Update number display depending on layout
+  if (operator === '÷') {
+    // Vertical division layout
+    firstEl.textContent = currentQuestion.a; // dividend (top)
+    secondEl.textContent = currentQuestion.b; // divisor (bottom)
+  } else {
+    // For +, −, ×, keep using your existing nested structure
+    firstEl.textContent = currentQuestion.a;
+    const numEl = secondEl.querySelector('.number');
+    const opEl = secondEl.querySelector('.plus');
+    if (numEl) numEl.textContent = currentQuestion.b;
+    if (opEl) opEl.textContent = currentQuestion.operator;
+  }
 
   document.getElementById('userAnswer').value = '';
   document.getElementById('feedback').textContent = '';
