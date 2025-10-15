@@ -113,15 +113,14 @@ body {
   height: 100%;
   top: 5vw; 
   box-shadow: -2px 0 4px -2px rgba(0,0,0,0.3);
-  padding: 15px;
+  padding: 5px;
+  padding-right: 10px;
 }  
 
 .side-right img{
   width: 100%;            /* lite luft på sidorna */
-  height: 100%;          /* fyller höjden på sidebaren */
-  object-fit: cover; 
-  
-  
+  height: 90%;          /* fyller höjden på sidebaren */
+  object-fit: cover;    
 }
 
 .side-left h1 {
@@ -479,6 +478,7 @@ main {
 .explanation-box {
    background-color: white;
    padding: 20px;
+   padding-bottom: 60vh;
    margin: 20px;
    height: 42%;
    border-radius: 10px;
@@ -614,7 +614,7 @@ input#userAnswer {
   width: 100%;                   
   text-align: right;
   font-size: 1.5em;
-  padding: 2px;
+  padding: 0.5vh;
   font-family: 'Nunito';
 
 }
@@ -669,7 +669,7 @@ input#userAnswer {
 }
 
 .speechBubble-container img{
-  width: 100%;
+  width: 110%;
   height: auto;
   transform: scaleX(-1) rotate(-10deg);  /* your original rotation */
   display: block;
@@ -683,9 +683,10 @@ input#userAnswer {
     linear-gradient(to right, rgb(192, 191, 191) 0.5px, transparent 0.5px),
     linear-gradient(to bottom,rgb(192, 191, 191) 0.5px, transparent 0.5px);
   background-size: 4.5vh 4.5vh; /* size of each “grid square” */
-  padding: 4vh;              /* space inside the box */
+  padding-top: 3vh;   
+  padding-bottom: 12vh;         /* space inside the box */
   width: 25vw;               /* optional fixed width */
-  margin: 3vw auto;          /* centers the box on the page */
+  margin: 0vw auto;          /* centers the box on the page */
   border-radius: 10px;
   text-align: center;   
 }
@@ -703,14 +704,14 @@ input#userAnswer {
 
 #progressDisplay {
   font-family: 'Baloo 2', 'Nunito', Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   font-weight: 500;
-  color: #333;
-  padding: 0.5em 1em;
+  color:#83c0c7;
+  padding: 0.5em 2em;
   margin-bottom: 0.5em;
   background: rgb(251, 240, 177);
   border-radius: 8px;
-  max-width: 95vw;
+  max-width:95vw;
   overflow-x: auto;
   white-space: nowrap;
   transition: font-size 0.2s;
@@ -757,12 +758,63 @@ input#userAnswer {
 
 
 .division-problem .line {
-  width: 60px;
+  width: 6vw;
   border-top: 2px solid black;
   margin: 6px 0;
   display: block;
   float: none;            
 }
 
+.aboutUs-content {
+  display: flex;
+  align-items: baseline;   
+  padding: 10vh 3vh; 
+}
 
+.about-box {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 120vh;
+  padding: 7vh;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
 
+.about-box h2 {
+  font-family: "Love Ya Like A Sister", cursive;
+  font-size: 2rem;
+  color: #6c4aa1;
+  margin-bottom: 15px;
+}
+
+.about-box p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/*Write fraction in division*/
+.fraction {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 1px;
+  font-size: 0.9rem;
+}
+
+.fraction .numerator {
+  display: block;
+  border-bottom: 1px solid black;
+  padding: 0px;
+}
+
+.fraction .denominator {
+  display: block;
+  padding: 0px;
+}
+
+.result {
+  font-size: 0.9rem; 
+  vertical-align: middle; 
+}
