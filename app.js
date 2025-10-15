@@ -1,47 +1,72 @@
-// Login
+// Import Firestore and (optional) User class
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+// Access Firebase from the global window (initialized in HTML)
+const db = window._db;
+
+// ---------------------------
+// LOGIN
+// ---------------------------
 async function login(event) {
-  event.preventDefault(); // stop form from reloading page
+  event.preventDefault();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   const errorElement = document.getElementById("error");
-  errorElement.textContent = ""; // clear old errors
+  errorElement.textContent = "";
 
   try {
-    // try to sign in with Firebase
     const userCredential = await window._signIn(window._auth, email, password);
     alert(`✅ Logged in as ${userCredential.user.email}`);
-    window.location.href = "profile.html"; // go to profile page
+    window.location.href = "index.html"; // Go to main page
   } catch (error) {
-    errorElement.textContent = error.message; // show error if login fails
+    errorElement.textContent = error.message;
   }
 }
 
-// Signup
+// ---------------------------
+// SIGNUP
+// ---------------------------
 async function signup(event) {
-  event.preventDefault(); // stop form from reloading page
+  event.preventDefault();
   const email = document.getElementById("newEmail").value.trim();
   const password = document.getElementById("newPassword").value;
   const errorElement = document.getElementById("signupError");
-  errorElement.textContent = ""; // clear old errors
+  errorElement.textContent = "";
 
-  // check password strength
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
   if (!passwordRegex.test(password)) {
     errorElement.textContent =
-      "Password must be at least 8 characters, include one uppercase letter, one lowercase letter, and one number.";
+      "Password must be at least 8 characters, include one uppercase, one lowercase, and one number.";
     return;
   }
 
   try {
-    // try to create user with Firebase
     const userCredential = await window._signUp(window._auth, email, password);
-    alert(`🎉 Account created for ${userCredential.user.email}`);
-    window.location.href = "profile.html"; // go to profile page
+    const user = userCredential.user;
+
+    // Create Firestore document for new user
+    const userDocRef = doc(db, "users", user.uid);
+    await setDoc(userDocRef, {
+      email: user.email,
+      progress: {
+        addition: {},
+        subtraction: {},
+        multiplication: {},
+        division: {},
+        mixed: {}
+      }
+    });
+
+    alert(`🎉 Account created for ${user.email}`);
+    window.location.href = "index.html"; // Go to main page
   } catch (error) {
-    errorElement.textContent = error.message; // show error if signup fails
+    errorElement.textContent = error.message;
   }
 }
 
+// ---------------------------
+// TOGGLE FORMS
+// ---------------------------
 function toggleForms() {
   document.getElementById("loginForm").classList.toggle("hidden");
   document.getElementById("signupForm").classList.toggle("hidden");
@@ -49,7 +74,10 @@ function toggleForms() {
   document.getElementById("signupError").textContent = "";
 }
 
-document.getElementById("forgotPassword").onclick = async function(event) {
+// ---------------------------
+// FORGOT PASSWORD
+// ---------------------------
+document.getElementById("forgotPassword").onclick = async function (event) {
   event.preventDefault();
   const email = prompt("Enter your email to reset your password:");
   if (!email) return;
@@ -61,3 +89,10 @@ document.getElementById("forgotPassword").onclick = async function(event) {
     alert("Error: " + error.message);
   }
 };
+
+// ---------------------------
+// MAKE FUNCTIONS GLOBAL
+// ---------------------------
+window.login = login;
+window.signup = signup;
+window.toggleForms = toggleForms;

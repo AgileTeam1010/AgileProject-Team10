@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login</title>
-  <!-- Google Fonts and CSS -->
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stylelogin.css" />
@@ -13,7 +13,7 @@
   <main class="page">
     <section class="card">
       <div class="card-header">
-        <div class="logo">🔒</div> <!-- just a lock icon for logo -->
+        <div class="logo">🔒</div>
         <h1 id="formTitle">Welcome back</h1>
         <p class="subtitle" id="formSubtitle">Please sign in to continue</p>
       </div>
@@ -39,12 +39,11 @@
         <div class="meta">
           <a href="#" class="link" id="forgotPassword">Forgot password?</a>
           <span>•</span>
-          <!-- link to show signup form -->
           <a href="#" class="link" onclick="toggleForms()">Create account</a>
         </div>
       </form>
 
-      <!-- Signup form, hidden at first -->
+      <!-- Signup form -->
       <form class="form hidden" id="signupForm" onsubmit="signup(event)">
         <div class="field">
           <label for="newEmail">Email</label>
@@ -54,7 +53,6 @@
         <div class="field">
           <label for="newPassword">Password</label>
           <input id="newPassword" type="password" placeholder="Choose a password" autocomplete="new-password" required />
-          <!-- password requirements hint -->
           <small id="passwordHelp" class="hint">
             Password must be at least 8 characters, with uppercase, lowercase, and a number.
           </small>
@@ -67,19 +65,25 @@
         <p id="signupError" class="error" role="alert" aria-live="polite"></p>
 
         <div class="meta">
-          <!-- link to go back to login form -->
           <a href="#" class="link" onclick="toggleForms()">Already have an account?</a>
         </div>
       </form>
     </section>
   </main>
 
-  <!-- Firebase SDK setup -->
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      sendPasswordResetEmail, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-    // Firebase config
+    // 🔑 Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
       authDomain: "agileproject-team10.firebaseapp.com",
@@ -90,18 +94,29 @@
       measurementId: "G-MQQDX82E7M"
     };
 
-    // Init Firebase
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Make auth functions available globally
+    // Expose for app.js
+    window._app = app;
     window._auth = auth;
+    window._db = db;
     window._signIn = signInWithEmailAndPassword;
     window._signUp = createUserWithEmailAndPassword;
     window._sendPasswordResetEmail = sendPasswordResetEmail;
+
+    // ✅ Auto-redirect to index.html if already logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Already logged in as:", user.email);
+        window.location.href = "index.html";
+      }
+    });
   </script>
 
   <!-- Main app logic -->
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -174,6 +174,13 @@ function checkAnswer() {
       answer: currentQuestion.answer
     });
 
+    // 👇 Save progress to Firestore if the user is logged in
+    if (window.currentUser) {
+      const operator = document.getElementById('gameRoot')?.dataset?.operator || 'addition';
+      window.currentUser.saveProgress(operator, currentLevel, currentQuestion.question);
+    }
+
+
     document.getElementById('feedback').textContent = 'Purrfect!';
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {

@@ -8,26 +8,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet"> 
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet"> 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">   
-
-
 </head>
 
 <body>
-
-  <header class = top-header>
-    <div class = "left-header">
-        <a href="index.html"><input type="image" src="pictures/computercat.png" name="saveForm" class="btTxt submit" id="saveForm"/></a>
-        <h1>CatCulation</h1> 
+  <header class="top-header">
+    <div class="left-header">
+      <a href="index.html">
+        <input type="image" src="pictures/computercat.png" name="saveForm" class="btTxt submit" id="saveForm"/>
+      </a>
+      <h1>CatCulation</h1> 
     </div> 
-    <div class = "right-header">
-        <a href="#about" class="righttablink">About us</a>
-        <a href="#about" class="righttablink">FAQ</a>
-           <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="search" placeholder="Search...">
-          </div>
-        <a href="indexlogin.html" class="signinbtn">Sign In / Register</a>
-        
+
+    <div class="right-header">
+      <a href="#about" class="righttablink">About us</a>
+      <a href="#faq" class="righttablink">FAQ</a>
+
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="search" placeholder="Search...">
+      </div>
+
+      <!-- 👇 Authentication Links -->
+      <a href="indexlogin.html" id="signinLink" class="signinbtn">Sign In / Register</a>
+      <a href="profile.html" id="profileLink" class="signinbtn" style="display:none;">Profile</a>
+      <a href="#" id="logoutLink" class="signinbtn" style="display:none;">Log out</a>
     </div>
   </header>
 
@@ -37,40 +41,84 @@
       <a href="addition/addition.html" class="level">➕ Addition</a>
       <a href="subtraction/subtraction.html" class="level">➖ Subtraction</a>
       <a href="multiplication/multiplication.html" class="level">✖️ Multiplication</a>
-      <a href="Division/division.html" class="level">➗ Division</a>
+      <a href="division/division.html" class="level">➗ Division</a>
       <a href="mixed/mixed.html" class="level">🎲 Mixed</a>
     </aside>
 
     <main class="index-container">
       <img src="pictures/BoardIndex.png">
-        <div class="white-section">
-            <h2>Are your math skills Purrrfect or CATastrophic?</h2>
-            <p>
-                Math is like a fun puzzle. We use it when we count, share, or tell the time.
-                Sometimes it's tricky, but with practice, it gets easier. Making mistakes is
-                part of learning—just try again! Math helps us see patterns, solve problems,
-                and explore the world.
-            </p>
-            <div class="bob-cat">
-              <img src="pictures/mathbob.png">
-            </div>
-            <p class="p-right">
-                Hi! I’m Bob. <br><br>
-                Your purr-fect math buddy! 🐾
-                Math is like chasing a laser—sometimes tricky, but always fun!
-                Make mistakes, try again, and keep exploring.
-                With me by your side, every problem is a fun puzzle.
-                <br><br>So keep being paw-sitive, stay curious, and have fun with math. You’re doing furr-tastic!
-              </p>
-
+      <div class="white-section">
+        <h2>Are your math skills Purrrfect or CATastrophic?</h2>
+        <p>
+          Math is like a fun puzzle. We use it when we count, share, or tell the time.
+          Sometimes it's tricky, but with practice, it gets easier. Making mistakes is
+          part of learning—just try again! Math helps us see patterns, solve problems,
+          and explore the world.
+        </p>
+        <div class="bob-cat">
+          <img src="pictures/mathbob.png">
         </div>
+        <p class="p-right">
+          Hi! I’m Bob. <br><br>
+          Your purr-fect math buddy! 🐾
+          Math is like chasing a laser—sometimes tricky, but always fun!
+          Make mistakes, try again, and keep exploring.
+          With me by your side, every problem is a fun puzzle.
+          <br><br>So keep being paw-sitive, stay curious, and have fun with math. You’re doing furr-tastic!
+        </p>
+      </div>
     </main>
 
     <aside class="side-right">
-     <img src="../pictures/Screenshot 2025-10-02 145101.png">   
+      <img src="../pictures/Screenshot 2025-10-02 145101.png">   
     </aside>
   </div>
 
+  <!-- 👇 Firebase Authentication Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    // 🔑 Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI", 
+      authDomain: "agileproject-team10.firebaseapp.com",
+      projectId: "agileproject-team10",
+      storageBucket: "agileproject-team10.firebasestorage.app",
+      messagingSenderId: "949551209474",
+      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+      measurementId: "G-MQQDX82E7M"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🔗 Grab header elements
+    const signinLink = document.getElementById("signinLink");
+    const profileLink = document.getElementById("profileLink");
+    const logoutLink = document.getElementById("logoutLink");
+
+    // 👀 Check auth state and toggle buttons
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        signinLink.style.display = "none";
+        profileLink.style.display = "inline-block";
+        logoutLink.style.display = "inline-block";
+      } else {
+        signinLink.style.display = "inline-block";
+        profileLink.style.display = "none";
+        logoutLink.style.display = "none";
+      }
+    });
+
+    // 🚪 Log out functionality
+    logoutLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await signOut(auth);
+      alert("You’ve been logged out.");
+      window.location.href = "index.html";
+    });
+  </script>
 </body>
 </html>
-
