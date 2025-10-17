@@ -61,3 +61,40 @@ document.getElementById("forgotPassword").onclick = async function(event) {
     alert("Error: " + error.message);
   }
 };
+
+async function completeLevel(category, levelIndex) {
+  const user = window._auth.currentUser;
+  if (!user) {
+    alert("You must be logged in!");
+    return;
+  }
+  const uid = user.uid;
+  const userDocRef = window._doc(window._db, "users", uid);
+
+  // Get current progress
+  let userDoc = await window._getDoc(userDocRef);
+  let progress = userDoc.exists() ? userDoc.data().progress : {};
+
+  // If category not set, initialize it
+  if (!progress[category]) {
+    progress[category] = [false, false, false, false, false];
+  }
+
+  // Mark the level as completed
+  progress[category][levelIndex] = true;
+
+  // Save back to Firestore
+  await window._setDoc(userDocRef, { progress }, { merge: true });
+  alert(`Level ${levelIndex + 1} in ${category} marked as completed!`);
+}
+
+async function hasCompletedLevel(category, levelIndex) {
+  const user = window._auth.currentUser;
+  if (!user) return false;
+  const uid = user.uid;
+  const userDocRef = window._doc(window._db, "users", uid);
+  let userDoc = await window._getDoc(userDocRef);
+  if (!userDoc.exists()) return false;
+  const progress = userDoc.data().progress || {};
+  return progress[category] && progress[category][levelIndex] === true;
+}
