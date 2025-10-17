@@ -1,45 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
   <link rel="stylesheet" href="stylelogin.css">
-  <style>
-    /* profile card styling */
-    .profile-container {
-      max-width: 400px;
-      margin: 100px auto;
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
 
-    .profile-container h2 {
-      margin-bottom: 10px;
-    }
-
-    .logout-btn {
-      padding: 10px 20px;
-      margin-top: 20px;
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .logout-btn:hover {
-      background: #e63b3b;
-    }
-  </style>
 </head>
+
 <body>
-  <div class="profile-container">
-    <h2>Welcome!</h2>
-    <p id="userEmail">Loading user...</p> <!-- will show user's email -->
-    <button class="logout-btn" onclick="logout()">Log out</button>
+
+  <header class=top-header>
+    <div class="left-header">
+      <a href="index.html"><input type="image" src="pictures/computercat.png" name="saveForm" class="btTxt submit"
+          id="saveForm" /></a>
+      <h1>CatCulation</h1>
+    </div>
+    <div class="right-header">
+      <a href="aboutUs.html" class="righttablink">About us</a>
+      <div class="search-box">
+        <button class="search-icon">🔍</button>
+        <input type="search" id="siteSearch" placeholder="Search...">
+      </div>
+      <button class="logout-btn" onclick="logout()">Log out</button>
+
+    </div>
+  </header>
+
+  <div class="content">
+      <aside class="side-left">
+      <h1>Topics</h1>
+      <a href="addition/addition.html" class="level">➕ Addition</a>
+      <a href="subtraction/subtraction.html" class="level">➖ Subtraction</a>
+      <a href="multiplication/multiplication.html" class="level">✖️ Multiplication</a>
+      <a href="Division/division.html" class="level">➗ Division</a>
+      <a href="mixed/mixed.html" class="level">★ Mixed</a>
+    </aside>
+
+    <main class="index-container">
+        <div class="white-section">
+            <h2>Profile 
+            <p id="userEmail">Loading user...</p> <!-- will show user's email --> </h2>
+              
+            
+
+            <div class="profile-cat">
+              <img src="pictures/profilecat.png">
+            </div>
+
+            <div class = p-left >
+            <p>
+             Progress
+              
+            </p>
+            </div>
+
+            
+        </div>
+    </main>
+
+    <aside class="side-right">
+     <img src="../pictures/advertisement.webp">   
+    </aside>
   </div>
 
   <!-- Firebase setup and logic -->
@@ -73,11 +98,12 @@
     });
 
     // Log out function
-    window.logout = function() {
+    window.logout = function () {
       signOut(auth).then(() => {
         window.location.href = "index.html";
       });
     }
   </script>
 </body>
+
 </html>

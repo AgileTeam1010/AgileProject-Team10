@@ -109,8 +109,6 @@ if (operator === '÷') {
   return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
 }
 
-
-
 function newQuestion() {
   const operator = getCurrentOperator();
   currentQuestion = generateQuestion(currentLevel, operator);
@@ -142,7 +140,7 @@ function newQuestion() {
   }
 
   document.getElementById('userAnswer').value = '';
-  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').textContent = "Let's catculate"
 }
 
 function updateLevelButtons() {
@@ -189,23 +187,33 @@ function checkAnswer() {
   const isCorrect = userAnswer === currentQuestion.answer;
 
   if (isCorrect) {
+  
     completedQuestions[currentLevel].push({
       question: currentQuestion.question,
       answer: currentQuestion.answer
     });
 
-    document.getElementById('feedback').textContent = 'Purrfect!';
+    
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       updateLevelButtons();
       updateProgressDisplay();
-
+      document.getElementById('feedback').textContent = 'Purrfect!';
+      
       if (currentLevel < 5) {
         currentLevel++;
+        document.getElementById('feedback').textContent = `Continue to level ${currentLevel}`;
         setTimeout(() => {
-          document.getElementById('feedback').textContent = '';
           newQuestion();
           updateProgressDisplay();
+
+          // Uppdatera färgmarkeringen i sidebaren
+          if (typeof window.setActiveLevel === "function") {
+            window.setActiveLevel(currentLevel);
+          } 
+           // Uppdatera URL-hash (valfritt)
+          window.location.hash = `level=${currentLevel}`;
+
         }, 1200);
       }
       return;
@@ -214,7 +222,11 @@ function checkAnswer() {
     newQuestion();
     updateLevelButtons();
     updateProgressDisplay();
-  } else {
+  } 
+  if(isCorrect){
+    document.getElementById('feedback').textContent = 'Purrfect!';
+  }
+  else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
 }
@@ -243,11 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       currentLevel = selectedLevel;
+      //document.getElementById('feedback').textContent = `Level ${currentLevel}`;
       updateProgressDisplay();
       newQuestion();
+
     });
   });
 
   updateLevelButtons();
   updateProgressDisplay();
+  document.getElementById('feedback').textContent = "Let's get started!";
+
 });
