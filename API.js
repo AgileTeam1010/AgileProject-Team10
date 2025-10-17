@@ -180,6 +180,14 @@ function checkAnswer() {
       updateLevelButtons();
       updateProgressDisplay();
 
+      // --- NEW: save progress for this operator if helper exists ---
+      if (typeof window._saveProgress === 'function') {
+        const op = getCurrentOperator();
+        const map = completedCountsMap(); // counts for current operator across levels
+        // save only the counts for the operator (Firestore helper merges)
+        window._saveProgress(op, map).catch(err => console.warn('Save failed', err));
+      }
+
       if (currentLevel < 5) {
         currentLevel++;
         setTimeout(() => {
@@ -206,13 +214,48 @@ function updateProgressDisplay() {
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
+// --- NEW helper: create a map counts per level from completedQuestions ---
+function completedCountsMap() {
+  const map = {};
+  for (let lvl = 1; lvl <= 5; lvl++) {
+    map[String(lvl)] = (completedQuestions[lvl] || []).length;
+  }
+  return map;
+}
+
+// --- NEW: apply loaded progress (object from firestore) to completedQuestions ---
+function applyLoadedProgressForOperator(operatorKey, savedMap) {
+  if (!savedMap) return;
+  for (let lvl = 1; lvl <= 5; lvl++) {
+    const count = savedMap[String(lvl)] || 0;
+    // create placeholder items so existing UI logic (length checks) works
+    completedQuestions[lvl] = [];
+    for (let i = 0; i < count && i < maxQuestionsPerLevel; i++) {
+      completedQuestions[lvl].push({ question: 'saved', answer: null });
+    }
+  }
+}
+
 // Init: koppla level-knappar och progress
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Läs level från URL-hash (?level=X)
   const params = new URLSearchParams(window.location.hash.replace('#', ''));
   const levelParam = parseInt(params.get('level'), 10);
   if (!Number.isNaN(levelParam) && levelParam >= 1 && levelParam <= 5) {
     currentLevel = levelParam;
+  }
+
+  // --- NEW: attempt to load saved progress (if firebase-init exposed window._loadProgress) ---
+  if (typeof window._loadProgress === 'function') {
+    try {
+      const saved = await window._loadProgress(); // returns map by operator
+      const op = getCurrentOperator(); // e.g. '+', '−', '×', '÷', 'mixed'
+      if (saved && saved[op]) {
+        applyLoadedProgressForOperator(op, saved[op]);
+      }
+    } catch (err) {
+      console.warn('Could not load saved progress', err);
+    }
   }
 
   document.querySelectorAll('.level').forEach(link => {

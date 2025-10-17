@@ -10,7 +10,34 @@ async function login(event) {
     // try to sign in with Firebase
     const userCredential = await window._signIn(window._auth, email, password);
     alert(`✅ Logged in as ${userCredential.user.email}`);
-    window.location.href = "profile.html"; // go to profile page
+
+    // compute redirect target:
+    const params = new URLSearchParams(window.location.search);
+    const redirectParam = params.get('redirect'); // explicit ?redirect=/path
+    let redirectTo = 'index.html';
+
+    if (redirectParam) {
+      // only allow same-origin relative or absolute paths to avoid open-redirects
+      try {
+        const candidate = new URL(redirectParam, location.href);
+        if (candidate.origin === location.origin) redirectTo = candidate.pathname + candidate.search + candidate.hash;
+      } catch (e) {
+        // ignore invalid redirect param
+      }
+    } else if (document.referrer) {
+      try {
+        const refUrl = new URL(document.referrer);
+        if (refUrl.origin === location.origin) redirectTo = refUrl.pathname + refUrl.search + refUrl.hash;
+      } catch (e) {
+        // fallback to index.html
+      }
+    }
+
+    // short delay to allow Firebase to finish restoring session
+    setTimeout(() => {
+      window.location.href = redirectTo;
+    }, 300);
+
   } catch (error) {
     errorElement.textContent = error.message; // show error if login fails
   }
@@ -36,7 +63,7 @@ async function signup(event) {
     // try to create user with Firebase
     const userCredential = await window._signUp(window._auth, email, password);
     alert(`🎉 Account created for ${userCredential.user.email}`);
-    window.location.href = "profile.html"; // go to profile page
+    window.location.href = "index.html"; // go to profile page
   } catch (error) {
     errorElement.textContent = error.message; // show error if signup fails
   }

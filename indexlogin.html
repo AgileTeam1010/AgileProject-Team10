@@ -14,6 +14,8 @@
     <section class="card">
       <div class="card-header">
         <div class="logo">🔒</div> <!-- just a lock icon for logo -->
+        <!-- Auth button - will be updated by firebase-init.js -->
+        <a id="authButton" class="signinbtn link" href="indexlogin.html">Sign In / Register</a>
         <h1 id="formTitle">Welcome back</h1>
         <p class="subtitle" id="formSubtitle">Please sign in to continue</p>
       </div>
@@ -100,6 +102,9 @@
     window._signUp = createUserWithEmailAndPassword;
     window._sendPasswordResetEmail = sendPasswordResetEmail;
   </script>
+
+  <!-- Shared firebase helpers that update the auth button/text across pages -->
+  <script type="module" src="firebase-init.js"></script>
 
   <!-- Main app logic -->
   <script src="app.js"></script>
