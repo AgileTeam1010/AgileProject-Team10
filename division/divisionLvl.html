@@ -84,8 +84,19 @@
   </div>
 </body>
 <script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    const levelLinks = document.querySelectorAll('.level');
+    // Läs vilken level som står i URL
+    const params = new URLSearchParams(window.location.search);
+    const currentLevel = params.get('level');
+    if (currentLevel) {
+      const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+  
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
   const firebaseConfig = {
     apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
     authDomain: "agileproject-team10.firebaseapp.com",
@@ -97,19 +108,18 @@
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  // Update the header link text/href based on auth state. This keeps the user
+  // experience consistent across pages so the Sign In link becomes Profile when logged in.
   onAuthStateChanged(auth, (user) => {
+    const btn = document.querySelector('.signinbtn');
+    if (!btn) return;
     if (user) {
-      document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+      btn.textContent = 'Profile';
+      btn.href = '../profile.html';
     } else {
-      // If not logged in, go back to login page
-      window.location.href = "index.html";
+      btn.textContent = 'Sign In / Register';
+      btn.href = 'indexlogin.html';
     }
   });
-  // Log out function
-  window.logout = function () {
-    signOut(auth).then(() => {
-      window.location.href = "index.html";
-    });
-  }
 </script>
 </html>
