@@ -11,6 +11,7 @@
   <script src="../API.js"></script>
   <script src="../levelButton.js"></script>
   <script src="../search.js"></script>
+  <script type="module" src="../authState.js"></script>
 </head>
 
 <body>
@@ -41,28 +42,9 @@
       <a class="level" data-level="3" href="#level=3">Level 3</a>
       <a class="level" data-level="4" href="#level=4">Level 4</a>
       <a class="level" data-level="5" href="#level=5">Level 5</a>
-
-      <!--
-      <div class="level-link">
-        <a href="#">Level 1</a>
-        <input type="checkbox">
-      </div>
-      -->
-
     </aside>
 
-
-
     <main>
-     <!---<div class="input-container"> 
-        <p id="question">Press "New Question" to start!</p>
-        <input type="text" id="userAnswer" placeholder="Your answer">
-        <button onclick="checkAnswer()">Submit</button>
-        <button onclick="newQuestion()">New Question</button>
-        <p id="feedback"></p>
-      </div>-->
-
-     
       <div id="progressDisplay"></div>
       <div class="level-box">
         <div class="container">
@@ -84,7 +66,6 @@
             <button onclick="newQuestion()">New Question</button>
           </div>
 
-          <!--<p id="feedback"></p>-->
         </div>
       </div>
       <div class="cat-speech-container">
@@ -101,11 +82,35 @@
     <aside class="side-right">
       <img src="../pictures/advertisement.webp">
     </aside>
-
-    
   </div>
-
 </body>
-
-  <script type="module" src="../authState.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+    authDomain: "agileproject-team10.firebaseapp.com",
+    projectId: "agileproject-team10",
+    storageBucket: "agileproject-team10.firebasestorage.app",
+    messagingSenderId: "949551209474",
+    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+    measurementId: "G-MQQDX82E7M"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+    } else {
+      // If not logged in, go back to login page
+      window.location.href = "index.html";
+    }
+  });
+  // Log out function
+  window.logout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "index.html";
+    });
+  }
+</script>
 </html>

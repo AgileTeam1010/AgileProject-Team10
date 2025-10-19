@@ -8,11 +8,9 @@
   <link rel="stylesheet" href="stylelogin.css">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
-
   <header class=top-header>
     <div class="left-header">
       <a href="index.html"><input type="image" src="pictures/computercat.png" name="saveForm" class="btTxt submit"
@@ -37,28 +35,19 @@
       <a href="subtraction/subtraction.html" class="level">➖ Subtraction</a>
       <a href="multiplication/multiplication.html" class="level">✖️ Multiplication</a>
       <a href="Division/division.html" class="level">➗ Division</a>
-      <a href="mixed/mixed.html" class="level">★ Mixed</a>
+      <a href="mixed/mixed.html" class="level">🎲 Mixed</a>
     </aside>
 
     <main class="index-container">
         <div class="white-section">
             <h2>Profile 
-            <p id="userEmail">Loading user...</p> <!-- will show user's email --> </h2>
-              
-            
-
+              <p id="userEmail">Loading user...</p>
             <div class="profile-cat">
               <img src="pictures/profilecat.png">
             </div>
-
             <div class = p-left >
-            <p>
-             Progress
-              
-            </p>
+              <p>Progress</p>
             </div>
-
-            
         </div>
     </main>
 
@@ -67,43 +56,34 @@
     </aside>
   </div>
 
-  <!-- Firebase setup and logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
-      authDomain: "agileproject-team10.firebaseapp.com",
-      projectId: "agileproject-team10",
-      storageBucket: "agileproject-team10.firebasestorage.app",
-      messagingSenderId: "949551209474",
-      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
-      measurementId: "G-MQQDX82E7M"
-    };
-
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Check if user is logged in
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("userEmail").textContent = "Logged in as " + user.email;
-      } else {
-        // If not logged in, go back to login page
-        window.location.href = "index.html";
-      }
-    });
-
-    // Log out function
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    }
-  </script>
 </body>
-
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+    authDomain: "agileproject-team10.firebaseapp.com",
+    projectId: "agileproject-team10",
+    storageBucket: "agileproject-team10.firebasestorage.app",
+    messagingSenderId: "949551209474",
+    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+    measurementId: "G-MQQDX82E7M"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+    } else {
+      // If not logged in, go back to login page
+      window.location.href = "index.html";
+    }
+  });
+  // Log out function
+  window.logout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "index.html";
+    });
+  }
+</script>
 </html>

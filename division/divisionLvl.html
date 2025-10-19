@@ -11,6 +11,7 @@
   <script src="../API.js"></script>
   <script src="../levelButton.js"></script>
   <script src="../search.js"></script>
+  <script type="module" src="../authState.js"></script>
 </head>
 
 <body>
@@ -82,6 +83,33 @@
     </aside>
   </div>
 </body>
-
-  <script type="module" src="../authState.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+    authDomain: "agileproject-team10.firebaseapp.com",
+    projectId: "agileproject-team10",
+    storageBucket: "agileproject-team10.firebasestorage.app",
+    messagingSenderId: "949551209474",
+    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+    measurementId: "G-MQQDX82E7M"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+    } else {
+      // If not logged in, go back to login page
+      window.location.href = "index.html";
+    }
+  });
+  // Log out function
+  window.logout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "index.html";
+    });
+  }
+</script>
 </html>

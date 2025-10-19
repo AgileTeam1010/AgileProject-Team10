@@ -26,11 +26,6 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/**
- * Genererar en uppgift beroende på operator:
- * '+' => a + b, svar = a + b
- * '÷' => a ÷ b, svar = q  (a konstrueras som b*q så det blir heltal utan rest)
- */
 function generateQuestion(level, operator) {
   const { min, max } = levelRange(level);
 
@@ -43,13 +38,13 @@ function generateQuestion(level, operator) {
   if (operator === '+') {
     const a = randInt(min, max);
     const b = randInt(min, max);
-    return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
+    return { a, b, operator: '+', answer: a + b, question: `${a} + ${b}` };
   }
 
   if (operator === '−') {
     const a = randInt(min, max);
     const b = randInt(min, a);
-    return { a, b, operator: '−', answer: a - b, question: `Solve: ${a} − ${b}` };
+    return { a, b, operator: '−', answer: a - b, question: `${a} − ${b}` };
   }
 
   if (operator === '×') {
@@ -73,7 +68,7 @@ function generateQuestion(level, operator) {
 
   const a = randInt(1, aMax);
   const b = randInt(1, bMax);
-  return { a, b, operator: '×', answer: a * b, question: `Solve: ${a} × ${b}` };
+  return { a, b, operator: '×', answer: a * b, question: `${a} × ${b}` };
 }
 
 if (operator === '÷') {
@@ -99,27 +94,20 @@ if (operator === '÷') {
   const q = randInt(2, quotientMax);  // quotient
   const a = b * q;                    // dividend (always clean division)
 
-  return { a, b, operator: '÷', answer: q, question: `Solve: ${a} ÷ ${b}` };
+  return { a, b, operator: '÷', answer: q, question: `${a} ÷ ${b}` };
 }
 
 
   // fallback
   const a = randInt(min, max);
   const b = randInt(min, max);
-  return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
+  return { a, b, operator: '+', answer: a + b, question: `${a} + ${b}` };
 }
 
 function newQuestion() {
   const operator = getCurrentOperator();
   currentQuestion = generateQuestion(currentLevel, operator);
   document.getElementById('question').textContent = currentQuestion.question;
-
-  // Visa uppgiften
-  /*
-  document.querySelector('.first').textContent = currentQuestion.a;
-  document.querySelector('.second .number').textContent = currentQuestion.b;
-  document.querySelector('.second .plus').textContent = currentQuestion.operator;*/
-
 
   // Shared logic
   const firstEl = document.querySelector('.first');
@@ -234,7 +222,7 @@ function checkAnswer() {
 function updateProgressDisplay() {
   const completed = completedQuestions[currentLevel].length;
   const star = completed >= maxQuestionsPerLevel ? '⭐' : '';
-  document.getElementById('progressDisplay').textContent =
+  document.getElementById('progressDisplay').textContent = 
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 

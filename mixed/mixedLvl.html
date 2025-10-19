@@ -10,11 +10,11 @@
   <script src="../API.js"></script>
   <script src="../levelButton.js"></script>
   <script src="../search.js"></script>
+  <script type="module" src="../authState.js"></script>
 </head>
 
 <body>
   <header class="top-header">
-  <script type="module" src="../authState.js"></script>
     <div class="left-header">
       <a href="mixed.html">
         <input type="image" src="../pictures/computercat.png" class="btTxt submit" id="saveForm" />
@@ -83,4 +83,35 @@
     </aside>
   </div>
 </body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+      authDomain: "agileproject-team10.firebaseapp.com",
+      projectId: "agileproject-team10",
+      storageBucket: "agileproject-team10.firebasestorage.app",
+      messagingSenderId: "949551209474",
+      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+      measurementId: "G-MQQDX82E7M"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Update the header link text/href based on auth state. This keeps the user
+    // experience consistent across pages so the Sign In link becomes Profile when logged in.
+    onAuthStateChanged(auth, (user) => {
+      const btn = document.querySelector('.signinbtn');
+      if (!btn) return;
+      if (user) {
+        btn.textContent = 'Profile';
+        btn.href = 'profile.html';
+      } else {
+        btn.textContent = 'Sign In / Register';
+        btn.href = 'indexlogin.html';
+      }
+    });
+  </script>
 </html>

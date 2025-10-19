@@ -10,8 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
   <script src="../API.js"></script>
   <script src="../search.js"></script>
-  <styl>
-  </styl>
+  <script type="module" src="../authState.js"></script>
 </head>
 
 <body>
@@ -78,16 +77,8 @@
           title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
       </div>
-
-
-
-
     </main>
-
-
-
     <aside class="side-right">
       <img src="../pictures/advertisement.webp">
     </aside>
@@ -107,8 +98,45 @@
       }
     });
   </script>
-
 </body>
+<script type="module">
+document.addEventListener('DOMContentLoaded', () => {
+    const levelLinks = document.querySelectorAll('.level');
+    // Läs vilken level som står i URL
+    const params = new URLSearchParams(window.location.search);
+    const currentLevel = params.get('level');
+    if (currentLevel) {
+      const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
 
-  <script type="module" src="../authState.js"></script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+  authDomain: "agileproject-team10.firebaseapp.com",
+  projectId: "agileproject-team10",
+  storageBucket: "agileproject-team10.firebasestorage.app",
+  messagingSenderId: "949551209474",
+  appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+  measurementId: "G-MQQDX82E7M"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("userEmail").textContent = "Logged in as " + user.email;
+  } else {
+    // If not logged in, go back to login page
+    window.location.href = "index.html";
+  }
+});
+// Log out function
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+}
+</script>
 </html>

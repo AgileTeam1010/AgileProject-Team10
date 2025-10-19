@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Global topics array
   const topics = [
-  { name: "Addition",  url: "/addition/addition.html" },
-  { name: "Subtraction", url: "/subtraction/subtraction.html" },
-  { name: "Multiplication", url: "/multiplication/multiplication.html" },
-  { name: "Division", url: "/Division/division.html" },
-  { name: "Mixed", url: "/mixed/mixed.html" }
+  { name: "Addition",  url: "addition/addition.html" },
+  { name: "Subtraction", url: "subtraction/subtraction.html" },
+  { name: "Multiplication", url: "multiplication/multiplication.html" },
+  { name: "Division", url: "Division/division.html" },
+  { name: "Mixed", url: "mixed/mixed.html" }
 ];
 
   // Function to redirect to the first matching topic
