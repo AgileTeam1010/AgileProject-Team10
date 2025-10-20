@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>No-Gap Layout</title>
+  <title>CatCulation</title>
   <link rel="stylesheet" href="../style.css">
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+  <script type="module" src="../authState.js"></script>
   <script src="../API.js"></script>
-  <styl>
-  </styl>
+  <script src="../search.js"></script>
 </head>
 
 <body>
@@ -22,11 +22,10 @@
     </div>
 
     <div class="right-header">
-      <a href="#about" class="righttablink">About us</a>
-      <a href="#about" class="righttablink">FAQ</a>
+      <a href="/aboutUs.html" class="righttablink">About us</a>
         <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="search" placeholder="Search...">
+            <button class="search-icon">🔍</button>
+            <input type="search" id="siteSearch" placeholder="Search...">
           </div>
       <a href="../indexlogin.html" class="signinbtn">Sign In / Register</a>
     </div>
@@ -78,36 +77,39 @@
           title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
       </div>
-
-
-
-
     </main>
-
-
-
     <aside class="side-right">
-      <img src="../pictures/Screenshot 2025-10-02 145101.png">
+      <img src="../pictures/advertisement.webp">
     </aside>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const levelLinks = document.querySelectorAll('.level');
-
-      // Läs vilken level som står i URL
-      const params = new URLSearchParams(window.location.search);
-      const currentLevel = params.get('level');
-
-      if (currentLevel) {
-        const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
-        if (activeLink) activeLink.classList.add('active');
-      }
-    });
-  </script>
-
 </body>
-
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+    authDomain: "agileproject-team10.firebaseapp.com",
+    projectId: "agileproject-team10",
+    storageBucket: "agileproject-team10.firebasestorage.app",
+    messagingSenderId: "949551209474",
+    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+    measurementId: "G-MQQDX82E7M"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  // Update the header link text/href based on auth state. This keeps the user
+  // experience consistent across pages so the Sign In link becomes Profile when logged in.
+  onAuthStateChanged(auth, (user) => {
+    const btn = document.querySelector('.signinbtn');
+    if (!btn) return;
+    if (user) {
+      btn.textContent = 'Profile';
+      btn.href = '../profile.html';
+    } else {
+      btn.textContent = 'Sign In / Register';
+      btn.href = 'indexlogin.html';
+    }
+  });
+</script>
 </html>

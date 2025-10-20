@@ -78,6 +78,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
     // Firebase config
     const firebaseConfig = {
@@ -93,6 +94,30 @@
     // Init Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+
+    // Ensure persistence so users stay signed in across sessions (local persistence)
+    import { setPersistence, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    // Set persistence to local so the login persists between page reloads and browser restarts
+    setPersistence(auth, browserLocalPersistence).catch((e) => {
+      // If persistence can't be set, we still continue — fallback to default
+      console.warn('Could not set auth persistence:', e.message);
+    });
+
+    // If already signed in, redirect to profile immediately; also update UI accordingly
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // If user is logged in, go to profile page
+        window.location.href = 'profile.html';
+      }
+    });
+
+    // Save progress (firestore)
+    const db = getFirestore(app);
+    window._db = db;
+    window._doc = doc;
+    window._setDoc = setDoc;
+    window._getDoc = getDoc;
+    window._updateDoc = updateDoc;
 
     // Make auth functions available globally
     window._auth = auth;

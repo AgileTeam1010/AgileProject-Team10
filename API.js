@@ -26,11 +26,6 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/**
- * Genererar en uppgift beroende på operator:
- * '+' => a + b, svar = a + b
- * '÷' => a ÷ b, svar = q  (a konstrueras som b*q så det blir heltal utan rest)
- */
 function generateQuestion(level, operator) {
   const { min, max } = levelRange(level);
 
@@ -43,13 +38,13 @@ function generateQuestion(level, operator) {
   if (operator === '+') {
     const a = randInt(min, max);
     const b = randInt(min, max);
-    return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
+    return { a, b, operator: '+', answer: a + b, question: `${a} + ${b}` };
   }
 
   if (operator === '−') {
     const a = randInt(min, max);
     const b = randInt(min, a);
-    return { a, b, operator: '−', answer: a - b, question: `Solve: ${a} − ${b}` };
+    return { a, b, operator: '−', answer: a - b, question: `${a} − ${b}` };
   }
 
   if (operator === '×') {
@@ -73,7 +68,7 @@ function generateQuestion(level, operator) {
 
   const a = randInt(1, aMax);
   const b = randInt(1, bMax);
-  return { a, b, operator: '×', answer: a * b, question: `Solve: ${a} × ${b}` };
+  return { a, b, operator: '×', answer: a * b, question: `${a} × ${b}` };
 }
 
 if (operator === '÷') {
@@ -99,30 +94,41 @@ if (operator === '÷') {
   const q = randInt(2, quotientMax);  // quotient
   const a = b * q;                    // dividend (always clean division)
 
-  return { a, b, operator: '÷', answer: q, question: `Solve: ${a} ÷ ${b}` };
+  return { a, b, operator: '÷', answer: q, question: `${a} ÷ ${b}` };
 }
 
 
   // fallback
   const a = randInt(min, max);
   const b = randInt(min, max);
-  return { a, b, operator: '+', answer: a + b, question: `Solve: ${a} + ${b}` };
+  return { a, b, operator: '+', answer: a + b, question: `${a} + ${b}` };
 }
-
-
 
 function newQuestion() {
   const operator = getCurrentOperator();
   currentQuestion = generateQuestion(currentLevel, operator);
-
-  // Visa uppgiften
   document.getElementById('question').textContent = currentQuestion.question;
-  document.querySelector('.first').textContent = currentQuestion.a;
-  document.querySelector('.second .number').textContent = currentQuestion.b;
-  document.querySelector('.second .plus').textContent = currentQuestion.operator;
+
+  // Shared logic
+  const firstEl = document.querySelector('.first');
+  const secondEl = document.querySelector('.second');
+
+  // Update number display depending on layout
+  if (operator === '÷') {
+    // Vertical division layout
+    firstEl.textContent = currentQuestion.a; // dividend (top)
+    secondEl.textContent = currentQuestion.b; // divisor (bottom)
+  } else {
+    // For +, −, ×, keep using your existing nested structure
+    firstEl.textContent = currentQuestion.a;
+    const numEl = secondEl.querySelector('.number');
+    const opEl = secondEl.querySelector('.plus');
+    if (numEl) numEl.textContent = currentQuestion.b;
+    if (opEl) opEl.textContent = currentQuestion.operator;
+  }
 
   document.getElementById('userAnswer').value = '';
-  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').textContent = "Let's catculate"
 }
 
 function updateLevelButtons() {
@@ -169,23 +175,33 @@ function checkAnswer() {
   const isCorrect = userAnswer === currentQuestion.answer;
 
   if (isCorrect) {
+  
     completedQuestions[currentLevel].push({
       question: currentQuestion.question,
       answer: currentQuestion.answer
     });
 
-    document.getElementById('feedback').textContent = 'Purrfect!';
+    
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       updateLevelButtons();
       updateProgressDisplay();
-
+      document.getElementById('feedback').textContent = 'Purrfect!';
+      
       if (currentLevel < 5) {
         currentLevel++;
+        document.getElementById('feedback').textContent = `Continue to level ${currentLevel}`;
         setTimeout(() => {
-          document.getElementById('feedback').textContent = '';
           newQuestion();
           updateProgressDisplay();
+
+          // Uppdatera färgmarkeringen i sidebaren
+          if (typeof window.setActiveLevel === "function") {
+            window.setActiveLevel(currentLevel);
+          } 
+           // Uppdatera URL-hash (valfritt)
+          window.location.hash = `level=${currentLevel}`;
+
         }, 1200);
       }
       return;
@@ -194,7 +210,11 @@ function checkAnswer() {
     newQuestion();
     updateLevelButtons();
     updateProgressDisplay();
-  } else {
+  } 
+  if(isCorrect){
+    document.getElementById('feedback').textContent = 'Purrfect!';
+  }
+  else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
 }
@@ -202,7 +222,7 @@ function checkAnswer() {
 function updateProgressDisplay() {
   const completed = completedQuestions[currentLevel].length;
   const star = completed >= maxQuestionsPerLevel ? '⭐' : '';
-  document.getElementById('progressDisplay').textContent =
+  document.getElementById('progressDisplay').textContent = 
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
@@ -223,11 +243,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       currentLevel = selectedLevel;
+      //document.getElementById('feedback').textContent = `Level ${currentLevel}`;
       updateProgressDisplay();
       newQuestion();
+
     });
   });
 
   updateLevelButtons();
   updateProgressDisplay();
+  document.getElementById('feedback').textContent = "Let's get started!";
+
 });

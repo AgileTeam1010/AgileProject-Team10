@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>No-Gap Layout</title>
+  <title>CatCulation</title>
   <link rel="stylesheet" href="../style.css">
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
   <script src="../API.js"></script>
-  <styl>
-  </styl>
+  <script src="../search.js"></script>
+  <script type="module" src="../authState.js"></script>
 </head>
 
 <body>
@@ -22,11 +22,10 @@
     </div>
 
     <div class="right-header">
-      <a href="#about" class="righttablink">About us</a>
-      <a href="#about" class="righttablink">FAQ</a>
+      <a href="/aboutUs.html" class="righttablink">About us</a>
       <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="search" placeholder="Search...">
+        <button class="search-icon">🔍</button>
+        <input type="search" id="siteSearch" placeholder="Search...">
       </div>
       <a href="../indexlogin.html" class="signinbtn">Sign In / Register</a>
     </div>
@@ -35,7 +34,7 @@
   <div class="content">
     <aside class="side-left">
       <a href="../index.html" class="arrow">←</a>
-      <h2>Division</h2>
+      <h2>Mixed Math</h2>
       <a class="level" data-level="1" href="mixedLvl.html?level=1">Level 1</a>
       <a class="level" data-level="2" href="mixedLvl.html?level=2">Level 2</a>
       <a class="level" data-level="3" href="mixedLvl.html?level=3">Level 3</a>
@@ -44,7 +43,7 @@
 
       <div class="add-cat">
         <div class="speech-bubble">
-          <p>Let's do some division!</p>
+          <p>Let's do some math!</p>
         </div>
         <div class="addition-cat">
           <img src="../pictures/pusheen.png">
@@ -54,60 +53,77 @@
 
     <main>
       <div class="topic-top-box">
-        <h2 style="color: rgb(169, 113, 187);">Division</h2>
-        <p>is shown using the ÷ symbol</p>
+        <h2 style="color: rgb(42, 130, 154);">Mixed</h2>
+        <p>using all four symbols +, -, × and ÷</p>
       </div>
 
       <div class="explanation-box">
-        <p>Division is when you take a group of things and share them equally to see how many each one gets.
-          <br><br>The division of two whole numbers shows how many times one number can fit into another,
-          or how a total can be split into equal parts.
-          <br><br>For example, imagine I have 6 cans of fish, and I want to share them with one of cat friends. To
-          make it fair,
-          I divide the 6 fish cans into 2 equal groups.
-          Each cat gets 3 cans. This can be written as "6 ÷ 2 = 3", which is read as "six divided by two equals three".
+        <p>
+            Now that we’ve learned about addition, subtraction, multiplication, and division, 
+            it’s time to put everything together!
+            <br><br>
+            This section is a quick recap where you can practice using all four operations. 
+            You’ll solve questions that test how numbers can be combined, taken away, shared equally, or grouped together.
+            <br><br>
+            Remember — addition helps us find totals, subtraction helps us find differences, 
+            multiplication helps us make equal groups quickly, and division helps us share things fairly. Ready to try them all?
+            <br><br>
+            If you need a quick reminder of a subject you can always go back!
         </p>
         <br>
-        <div class="cat-food">
-          <img src="../pictures/divide-cat-food.png">
-        </div>
-        <p> Watch the video below to learn more about division!</p>
+       <div class="recap-buttons">
+        <a class="links addition" href="/addition/addition.html">Addition</a>
+        <a class="links subtraction" href="/subtraction/subtraction.html">Subtraction</a>
+        <a class="links multiplication" href="/multiplication/multiplication.html">Multiplication</a>
+        <a class="links division" href="/Division/division.html">Division</a>
       </div>
-
-      <div class="video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/OKJI91YYQaM?si=xpWbIw_GfO8PRUV-"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
-
-
-
 
     </main>
 
-
-
     <aside class="side-right">
-      <img src="../pictures/Screenshot 2025-10-02 145101.png">
+      <img src="../pictures/advertisement.webp">
     </aside>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const levelLinks = document.querySelectorAll('.level');
-
-      // Läs vilken level som står i URL
-      const params = new URLSearchParams(window.location.search);
-      const currentLevel = params.get('level');
-
-      if (currentLevel) {
-        const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
-        if (activeLink) activeLink.classList.add('active');
-      }
-    });
-  </script>
-
 </body>
-
+<script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    const levelLinks = document.querySelectorAll('.level');
+    // Läs vilken level som står i URL
+    const params = new URLSearchParams(window.location.search);
+    const currentLevel = params.get('level');
+    if (currentLevel) {
+      const activeLink = document.querySelector(`.level[data-level="${currentLevel}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+  
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
+    authDomain: "agileproject-team10.firebaseapp.com",
+    projectId: "agileproject-team10",
+    storageBucket: "agileproject-team10.firebasestorage.app",
+    messagingSenderId: "949551209474",
+    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
+    measurementId: "G-MQQDX82E7M"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  // Update the header link text/href based on auth state. This keeps the user
+  // experience consistent across pages so the Sign In link becomes Profile when logged in.
+  onAuthStateChanged(auth, (user) => {
+    const btn = document.querySelector('.signinbtn');
+    if (!btn) return;
+    if (user) {
+      btn.textContent = 'Profile';
+      btn.href = '../profile.html';
+    } else {
+      btn.textContent = 'Sign In / Register';
+      btn.href = 'indexlogin.html';
+    }
+  });
+</script>
 </html>
