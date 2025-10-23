@@ -210,41 +210,61 @@ async function checkAnswer() {
   const isCorrect = userAnswer === currentQuestion.answer;
 
   if (isCorrect) {
+    // 🐾 Step 1: Show Purrrfect right away
+    document.getElementById('feedback').textContent = 'Purrrfect! 😺';
+
     completedQuestions[currentLevel].push({
       question: currentQuestion.question,
       answer: currentQuestion.answer
     });
 
+    // 🟢 Save progress (+10 points)
     const operator = getCurrentOperator();
     await saveProgress(currentLevel, operator);
 
+    // 🟣 Step 2: If level is finished
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       updateLevelButtons();
       updateProgressDisplay();
-      document.getElementById('feedback').textContent = 'Purrfect!';
 
       if (currentLevel < 5) {
-        currentLevel++;
-        document.getElementById('feedback').textContent = `Continue to level ${currentLevel}`;
+        // Wait a bit, then encourage player before going to next level
         setTimeout(() => {
-          newQuestion();
-          updateProgressDisplay();
-          if (typeof window.setActiveLevel === "function") {
-            window.setActiveLevel(currentLevel);
-          }
-          window.location.hash = `level=${currentLevel}`;
-        }, 1200);
+          document.getElementById('feedback').textContent = `Let’s go to level ${currentLevel + 1}! 🎉`;
+
+          setTimeout(() => {
+            currentLevel++;
+            newQuestion();
+            updateProgressDisplay();
+
+            if (typeof window.setActiveLevel === "function") {
+              window.setActiveLevel(currentLevel);
+            }
+            window.location.hash = `level=${currentLevel}`;
+          }, 1200);
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          document.getElementById('feedback').textContent = "You’ve mastered all levels! 🏆";
+        }, 1000);
       }
+
       return;
     }
 
-    newQuestion();
-    updateLevelButtons();
-    updateProgressDisplay();
+    // 🟡 Step 3: For normal correct answers (not end of level)
+    setTimeout(() => {
+      newQuestion();
+      updateLevelButtons();
+      updateProgressDisplay();
+    }, 1000);
+
   } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
 }
+
+
 
 function updateProgressDisplay() {
   const completed = completedQuestions[currentLevel].length;
