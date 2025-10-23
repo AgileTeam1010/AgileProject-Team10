@@ -3,25 +3,24 @@ let currentLevel = 1;
 const maxQuestionsPerLevel = 2;
 const completedQuestions = { 1: [], 2: [], 3: [], 4: [], 5: [] };
 
-// Hämta valt räknesätt från sidan (data-operator) – default '+'
+// Get selected operator from the page
 function getCurrentOperator() {
   const root = document.getElementById('gameRoot');
   const op = root?.dataset?.operator || '+';
-  return op; // '+' eller '÷'
+  return op;
 }
 
 function levelRange(level) {
   switch (level) {
-    case 1: return { min: 1,   max: 10  };
-    case 2: return { min: 10,  max: 50  };
-    case 3: return { min: 50,  max: 200 };
+    case 1: return { min: 1, max: 10 };
+    case 2: return { min: 10, max: 50 };
+    case 3: return { min: 50, max: 200 };
     case 4: return { min: 100, max: 500 };
     case 5: return { min: 500, max: 1000 };
     default: return { min: 1, max: 10 };
   }
 }
 
-// Slumpar heltal i [min, max]
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -29,7 +28,6 @@ function randInt(min, max) {
 function generateQuestion(level, operator) {
   const { min, max } = levelRange(level);
 
-  // 👇 NEW: random operator if "mixed"
   if (operator === 'mixed') {
     const allOps = ['+', '−', '×', '÷'];
     operator = allOps[Math.floor(Math.random() * allOps.length)];
@@ -48,55 +46,36 @@ function generateQuestion(level, operator) {
   }
 
   if (operator === '×') {
-  // Keep numbers small at first, scale gradually with level
-  let aMax, bMax;
-
-  switch (level) {
-    case 1:
-      aMax = 5;  bMax = 5; break;      // 1×1 to 5×5
-    case 2:
-      aMax = 8;  bMax = 8; break;      // 1×1 to 8×8
-    case 3:
-      aMax = 10; bMax = 10; break;     // 1×1 to 10×10 (full table)
-    case 4:
-      aMax = 15; bMax = 12; break;     // a bit larger
-    case 5:
-      aMax = 20; bMax = 15; break;     // bigger but still reasonable
-    default:
-      aMax = 10; bMax = 10;
+    let aMax, bMax;
+    switch (level) {
+      case 1: aMax = 5; bMax = 5; break;
+      case 2: aMax = 8; bMax = 8; break;
+      case 3: aMax = 10; bMax = 10; break;
+      case 4: aMax = 15; bMax = 12; break;
+      case 5: aMax = 20; bMax = 15; break;
+      default: aMax = 10; bMax = 10;
+    }
+    const a = randInt(1, aMax);
+    const b = randInt(1, bMax);
+    return { a, b, operator: '×', answer: a * b, question: `${a} × ${b}` };
   }
 
-  const a = randInt(1, aMax);
-  const b = randInt(1, bMax);
-  return { a, b, operator: '×', answer: a * b, question: `${a} × ${b}` };
-}
+  if (operator === '÷') {
+    let divisorMax, quotientMax;
+    switch (level) {
+      case 1: divisorMax = 5; quotientMax = 10; break;
+      case 2: divisorMax = 8; quotientMax = 15; break;
+      case 3: divisorMax = 10; quotientMax = 25; break;
+      case 4: divisorMax = 12; quotientMax = 40; break;
+      case 5: divisorMax = 15; quotientMax = 50; break;
+      default: divisorMax = 10; quotientMax = 20;
+    }
 
-if (operator === '÷') {
-  // Smaller divisor and quotient for easier, cleaner divisions
-  let divisorMax, quotientMax;
-
-  switch (level) {
-    case 1:
-      divisorMax = 5;  quotientMax = 10; break;   // e.g. 20 ÷ 4 = 5
-    case 2:
-      divisorMax = 8;  quotientMax = 15; break;
-    case 3:
-      divisorMax = 10; quotientMax = 25; break;
-    case 4:
-      divisorMax = 12; quotientMax = 40; break;
-    case 5:
-      divisorMax = 15; quotientMax = 50; break;
-    default:
-      divisorMax = 10; quotientMax = 20;
+    const b = randInt(2, divisorMax);
+    const q = randInt(2, quotientMax);
+    const a = b * q;
+    return { a, b, operator: '÷', answer: q, question: `${a} ÷ ${b}` };
   }
-
-  const b = randInt(2, divisorMax);   // divisor
-  const q = randInt(2, quotientMax);  // quotient
-  const a = b * q;                    // dividend (always clean division)
-
-  return { a, b, operator: '÷', answer: q, question: `${a} ÷ ${b}` };
-}
-
 
   // fallback
   const a = randInt(min, max);
@@ -104,22 +83,73 @@ if (operator === '÷') {
   return { a, b, operator: '+', answer: a + b, question: `${a} + ${b}` };
 }
 
+function getTopicName(operator) {
+  switch (operator) {
+    case '+': return 'addition';
+    case '−': return 'subtraction';
+    case '×': return 'multiplication';
+    case '÷': return 'division';
+    case 'mixed': return 'mixed';
+    default: return 'unknown';
+  }
+}
+
+// 🔥 Save progress directly to Firestore
+async function saveProgress(level, operator) {
+  try {
+    const auth = window._auth;
+    const db = window._db;
+    const doc = window._doc;
+    const getDoc = window._getDoc;
+    const setDoc = window._setDoc;
+    const updateDoc = window._updateDoc;
+
+    if (!auth?.currentUser) {
+      console.warn("No user signed in – progress not saved.");
+      return;
+    }
+
+    const uid = auth.currentUser.uid;
+    const topic = getTopicName(operator);
+    const userRef = doc(db, "users", uid);
+    const snap = await getDoc(userRef);
+
+    const existing = snap.exists() ? snap.data() : { progress: {} };
+    const current = existing.progress?.[topic] || { answeredCount: 0, highestLevel: 1 };
+
+    const updatedTopic = {
+      answeredCount: current.answeredCount + 1,
+      highestLevel: Math.max(current.highestLevel, level)
+    };
+
+    const updatedProgress = { ...existing.progress, [topic]: updatedTopic };
+
+    if (snap.exists()) {
+      await updateDoc(userRef, { progress: updatedProgress });
+    } else {
+      await setDoc(userRef, { progress: updatedProgress });
+    }
+
+    console.log(`✅ Firestore updated for ${topic}:`, updatedTopic);
+
+  } catch (err) {
+    console.error("❌ Failed to save progress:", err);
+  }
+}
+
+
 function newQuestion() {
   const operator = getCurrentOperator();
   currentQuestion = generateQuestion(currentLevel, operator);
   document.getElementById('question').textContent = currentQuestion.question;
 
-  // Shared logic
   const firstEl = document.querySelector('.first');
   const secondEl = document.querySelector('.second');
 
-  // Update number display depending on layout
   if (operator === '÷') {
-    // Vertical division layout
-    firstEl.textContent = currentQuestion.a; // dividend (top)
-    secondEl.textContent = currentQuestion.b; // divisor (bottom)
+    firstEl.textContent = currentQuestion.a;
+    secondEl.textContent = currentQuestion.b;
   } else {
-    // For +, −, ×, keep using your existing nested structure
     firstEl.textContent = currentQuestion.a;
     const numEl = secondEl.querySelector('.number');
     const opEl = secondEl.querySelector('.plus');
@@ -128,7 +158,7 @@ function newQuestion() {
   }
 
   document.getElementById('userAnswer').value = '';
-  document.getElementById('feedback').textContent = "Let's catculate"
+  document.getElementById('feedback').textContent = "Let's catculate";
 }
 
 function updateLevelButtons() {
@@ -136,14 +166,11 @@ function updateLevelButtons() {
     const level = parseInt(link.dataset.level);
     link.textContent = `Level ${level}`;
 
-    // Lås upp logik
     if (level === 1) {
       if (completedQuestions[1].length >= maxQuestionsPerLevel) {
         link.classList.add('locked-level');
         link.textContent += ' ✔️';
-      } else {
-        link.classList.remove('locked-level');
-      }
+      } else link.classList.remove('locked-level');
       return;
     }
 
@@ -163,45 +190,40 @@ function updateLevelButtons() {
   });
 }
 
-function checkAnswer() {
+async function checkAnswer() {
   const userAnswerRaw = document.getElementById('userAnswer').value.trim();
   if (!userAnswerRaw) {
     document.getElementById('feedback').textContent = 'Type an answer first!';
     return;
   }
 
-  // Heltalssvar (division är konstruerad så att svaret är heltal)
   const userAnswer = parseInt(userAnswerRaw, 10);
   const isCorrect = userAnswer === currentQuestion.answer;
 
   if (isCorrect) {
-  
     completedQuestions[currentLevel].push({
       question: currentQuestion.question,
       answer: currentQuestion.answer
     });
 
-    
+    const operator = getCurrentOperator();
+    await saveProgress(currentLevel, operator);
 
     if (completedQuestions[currentLevel].length >= maxQuestionsPerLevel) {
       updateLevelButtons();
       updateProgressDisplay();
       document.getElementById('feedback').textContent = 'Purrfect!';
-      
+
       if (currentLevel < 5) {
         currentLevel++;
         document.getElementById('feedback').textContent = `Continue to level ${currentLevel}`;
         setTimeout(() => {
           newQuestion();
           updateProgressDisplay();
-
-          // Uppdatera färgmarkeringen i sidebaren
           if (typeof window.setActiveLevel === "function") {
             window.setActiveLevel(currentLevel);
-          } 
-           // Uppdatera URL-hash (valfritt)
+          }
           window.location.hash = `level=${currentLevel}`;
-
         }, 1200);
       }
       return;
@@ -210,11 +232,7 @@ function checkAnswer() {
     newQuestion();
     updateLevelButtons();
     updateProgressDisplay();
-  } 
-  if(isCorrect){
-    document.getElementById('feedback').textContent = 'Purrfect!';
-  }
-  else {
+  } else {
     document.getElementById('feedback').textContent = 'Try again!';
   }
 }
@@ -222,13 +240,11 @@ function checkAnswer() {
 function updateProgressDisplay() {
   const completed = completedQuestions[currentLevel].length;
   const star = completed >= maxQuestionsPerLevel ? '⭐' : '';
-  document.getElementById('progressDisplay').textContent = 
+  document.getElementById('progressDisplay').textContent =
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
-// Init: koppla level-knappar och progress
 document.addEventListener('DOMContentLoaded', () => {
-  // Läs level från URL-hash (?level=X)
   const params = new URLSearchParams(window.location.hash.replace('#', ''));
   const levelParam = parseInt(params.get('level'), 10);
   if (!Number.isNaN(levelParam) && levelParam >= 1 && levelParam <= 5) {
@@ -243,15 +259,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       currentLevel = selectedLevel;
-      //document.getElementById('feedback').textContent = `Level ${currentLevel}`;
       updateProgressDisplay();
       newQuestion();
-
     });
   });
 
   updateLevelButtons();
   updateProgressDisplay();
   document.getElementById('feedback').textContent = "Let's get started!";
-
 });

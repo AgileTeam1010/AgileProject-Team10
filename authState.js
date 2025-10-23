@@ -1,5 +1,22 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  setPersistence, 
+  browserLocalPersistence, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  sendPasswordResetEmail, 
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  setDoc, 
+  updateDoc 
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
@@ -13,19 +30,31 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+setPersistence(auth, browserLocalPersistence);
+
+// ✅ Make available everywhere
 window._auth = auth;
+window._db = db;
+window._doc = doc;
+window._getDoc = getDoc;
+window._setDoc = setDoc;
+window._updateDoc = updateDoc;
+window._signIn = signInWithEmailAndPassword;
+window._signUp = createUserWithEmailAndPassword;
+window._resetPass = sendPasswordResetEmail;
+window._signOut = signOut;
 
-setPersistence(auth, browserLocalPersistence).catch((e) => {
-  console.warn('Could not set auth persistence:', e && e.message ? e.message : e);
-});
-
-// Updaterar alla knappar med klassen 'signinbtn' baserat på inloggningsstatus
+// ✅ Update Sign-in buttons on every page
 function updateSigninBtn(user) {
   const btns = document.querySelectorAll('.signinbtn');
   btns.forEach(btn => {
     if (user) {
+      const depth = (window.location.pathname.match(/\//g) || []).length - 1;
+      const prefix = depth > 0 ? '../'.repeat(depth) : '';
       btn.textContent = 'Profile';
-      btn.href = 'profile.html';
+      btn.href = `${prefix}profile.html`;
     } else {
       btn.textContent = 'Sign In / Register';
       btn.href = 'indexlogin.html';
@@ -37,4 +66,4 @@ onAuthStateChanged(auth, (user) => {
   updateSigninBtn(user);
 });
 
-export { auth, updateSigninBtn };
+export { auth, db };

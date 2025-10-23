@@ -75,56 +75,9 @@
   </main>
 
   <!-- Firebase SDK setup -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+  <script type="module" src="authState.js"></script>
+<script src="app.js"></script>
 
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
-      authDomain: "agileproject-team10.firebaseapp.com",
-      projectId: "agileproject-team10",
-      storageBucket: "agileproject-team10.firebasestorage.app",
-      messagingSenderId: "949551209474",
-      appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
-      measurementId: "G-MQQDX82E7M"
-    };
-
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Ensure persistence so users stay signed in across sessions (local persistence)
-    import { setPersistence, browserLocalPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-    // Set persistence to local so the login persists between page reloads and browser restarts
-    setPersistence(auth, browserLocalPersistence).catch((e) => {
-      // If persistence can't be set, we still continue — fallback to default
-      console.warn('Could not set auth persistence:', e.message);
-    });
-
-    // If already signed in, redirect to profile immediately; also update UI accordingly
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // If user is logged in, go to profile page
-        window.location.href = 'profile.html';
-      }
-    });
-
-    // Save progress (firestore)
-    const db = getFirestore(app);
-    window._db = db;
-    window._doc = doc;
-    window._setDoc = setDoc;
-    window._getDoc = getDoc;
-    window._updateDoc = updateDoc;
-
-    // Make auth functions available globally
-    window._auth = auth;
-    window._signIn = signInWithEmailAndPassword;
-    window._signUp = createUserWithEmailAndPassword;
-    window._sendPasswordResetEmail = sendPasswordResetEmail;
-  </script>
 
   <!-- Main app logic -->
   <script src="app.js"></script>

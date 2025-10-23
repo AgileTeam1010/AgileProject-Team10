@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +10,11 @@
 </head>
 
 <body>
-  <header class=top-header>
+  <header class="top-header">
     <div class="left-header">
-      <a href="index.html"><input type="image" src="pictures/computercat.png" name="saveForm" class="btTxt submit"
-          id="saveForm" /></a>
+      <a href="index.html">
+        <input type="image" src="pictures/computercat.png" class="btTxt submit" id="saveForm" />
+      </a>
       <h1>CatCulation</h1>
     </div>
     <div class="right-header">
@@ -24,12 +24,11 @@
         <input type="search" id="siteSearch" placeholder="Search...">
       </div>
       <button class="logout-btn" onclick="logout()">Log out</button>
-
     </div>
   </header>
 
   <div class="content">
-      <aside class="side-left">
+    <aside class="side-left">
       <h1>Topics</h1>
       <a href="addition/addition.html" class="level">➕ Addition</a>
       <a href="subtraction/subtraction.html" class="level">➖ Subtraction</a>
@@ -39,51 +38,95 @@
     </aside>
 
     <main class="index-container">
-        <div class="white-section">
-            <h2>Profile 
-              <p id="userEmail">Loading user...</p>
-            <div class="profile-cat">
-              <img src="pictures/profilecat.png">
-            </div>
-            <div class = p-left >
-              <p>Progress</p>
-            </div>
+      <div class="white-section">
+        <h2>Profile</h2>
+        <p id="userEmail">Loading user...</p>
+        <div class="profile-cat">
+          <img src="pictures/profilecat.png" alt="Profile Cat">
         </div>
+        <div class="p-left">
+          <h2>Your Progress</h2>
+          <div id="progressContainer" class="progress-list">
+            Loading progress...
+          </div>
+        </div>
+      </div>
     </main>
 
     <aside class="side-right">
-     <img src="../pictures/advertisement.webp">   
+      <img src="../pictures/advertisement.webp" alt="Advertisement">
     </aside>
   </div>
 
-</body>
+  <script type="module" src="authState.js"></script>
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyBHVFExyz8RcEy_hWTSvtQYPx7rbZbzUjI",
-    authDomain: "agileproject-team10.firebaseapp.com",
-    projectId: "agileproject-team10",
-    storageBucket: "agileproject-team10.firebasestorage.app",
-    messagingSenderId: "949551209474",
-    appId: "1:949551209474:web:aa44cf129ea8675e841b1b",
-    measurementId: "G-MQQDX82E7M"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      document.getElementById("userEmail").textContent = "Logged in as " + user.email;
-    } else {
-      // If not logged in, go back to login page
+  import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  const auth = window._auth;
+  const db = window._db;
+
+  window.logout = async function () {
+    try {
+      await signOut(auth);
       window.location.href = "index.html";
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    const emailEl = document.getElementById("userEmail");
+    const container = document.getElementById("progressContainer");
+
+    if (!user) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    emailEl.textContent = `Logged in as ${user.email}`;
+    container.textContent = "Loading progress...";
+
+    try {
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+
+      if (!snap.exists() || !snap.data().progress) {
+        container.textContent = "No progress yet 💤";
+        return;
+      }
+
+      const progress = snap.data().progress;
+      renderProgress(progress, container);
+    } catch (err) {
+      console.error("Error loading progress:", err);
+      container.textContent = "Error loading progress 😿";
     }
   });
-  // Log out function
-  window.logout = function () {
-    signOut(auth).then(() => {
-      window.location.href = "index.html";
-    });
+
+  function renderProgress(progress, container) {
+    container.innerHTML = "";
+    const totalAnswered = Object.values(progress).reduce((sum, p) => sum + (p.answeredCount ?? 0), 0);
+
+    const summary = document.createElement("p");
+    summary.classList.add("progress-summary");
+    summary.textContent = `🎯 Total questions answered: ${totalAnswered}`;
+    container.appendChild(summary);
+
+    for (const [topic, data] of Object.entries(progress)) {
+      const div = document.createElement("div");
+      div.classList.add("progress-item");
+      div.innerHTML = `
+        <h3>${topic.charAt(0).toUpperCase() + topic.slice(1)}</h3>
+        <p>Questions answered: ${data.answeredCount ?? 0}</p>
+        <p>Highest level: ${data.highestLevel ?? 1}</p>
+      `;
+      container.appendChild(div);
+    }
   }
 </script>
+
+
+</body>
 </html>
