@@ -765,6 +765,45 @@ input#userAnswer {
   cursor: not-allowed;
 }
 
+/* Container that holds both Level and Points displays */
+.progress-wrapper {
+  display: flex;
+  justify-content: space-between;  /* left-right alignment */
+  align-items: center;
+  width: 100%;
+  padding: 0 2em;
+  box-sizing: border-box;
+}
+
+/* Points display matches the Level display style */
+#pointsDisplay {
+  font-family: 'Baloo 2', 'Nunito', Arial, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #83c0c7;
+  padding: 0.5em 2em;
+  margin-bottom: 0.5em;
+  background: rgb(251, 240, 177);
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: font-size 0.2s;
+}
+
+/* Responsive: match progressDisplay */
+@media (max-width: 600px) {
+  #pointsDisplay {
+    font-size: 1rem;
+    padding: 0.3em 0.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  #pointsDisplay {
+    font-size: 0.85rem;
+  }
+}
+
+
 #progressDisplay {
   font-family: 'Baloo 2', 'Nunito', Arial, sans-serif;
   font-size: 1.7rem;
@@ -955,3 +994,12 @@ input#userAnswer {
   color: #f57c00;
   font-family: 'Irish Grover', cursive;
 }
+
+.points-display {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: gold;
+  margin-bottom: 10px;
+}
+
+

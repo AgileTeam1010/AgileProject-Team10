@@ -92,39 +92,49 @@
       const ref = doc(db, "users", user.uid);
       const snap = await getDoc(ref);
 
-      if (!snap.exists() || !snap.data().progress) {
-        container.textContent = "No progress yet 💤";
-        return;
-      }
+if (!snap.exists() || !snap.data().progress) {
+  container.textContent = "No progress yet 💤";
+  return;
+}
 
-      const progress = snap.data().progress;
-      renderProgress(progress, container);
+const data = snap.data();
+const progress = data.progress || {};
+const points = data.points || 0;
+renderProgress(progress, container, points);
+
     } catch (err) {
       console.error("Error loading progress:", err);
       container.textContent = "Error loading progress 😿";
     }
   });
 
-  function renderProgress(progress, container) {
-    container.innerHTML = "";
-    const totalAnswered = Object.values(progress).reduce((sum, p) => sum + (p.answeredCount ?? 0), 0);
+  function renderProgress(progress, container, points = 0) {
+  container.innerHTML = "";
 
-    const summary = document.createElement("p");
-    summary.classList.add("progress-summary");
-    summary.textContent = `🎯 Total questions answered: ${totalAnswered}`;
-    container.appendChild(summary);
+  const pointsEl = document.createElement("p");
+  pointsEl.classList.add("points-display");
+  pointsEl.textContent = `⭐ Total Points: ${points}`;
+  container.appendChild(pointsEl);
 
-    for (const [topic, data] of Object.entries(progress)) {
-      const div = document.createElement("div");
-      div.classList.add("progress-item");
-      div.innerHTML = `
-        <h3>${topic.charAt(0).toUpperCase() + topic.slice(1)}</h3>
-        <p>Questions answered: ${data.answeredCount ?? 0}</p>
-        <p>Highest level: ${data.highestLevel ?? 1}</p>
-      `;
-      container.appendChild(div);
-    }
+  const totalAnswered = Object.values(progress).reduce((sum, p) => sum + (p.answeredCount ?? 0), 0);
+
+  const summary = document.createElement("p");
+  summary.classList.add("progress-summary");
+  summary.textContent = `🎯 Total questions answered: ${totalAnswered}`;
+  container.appendChild(summary);
+
+  for (const [topic, data] of Object.entries(progress)) {
+    const div = document.createElement("div");
+    div.classList.add("progress-item");
+    div.innerHTML = `
+      <h3>${topic.charAt(0).toUpperCase() + topic.slice(1)}</h3>
+      <p>Questions answered: ${data.answeredCount ?? 0}</p>
+      <p>Highest level: ${data.highestLevel ?? 1}</p>
+    `;
+    container.appendChild(div);
   }
+}
+
 </script>
 
 

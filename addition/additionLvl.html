@@ -45,39 +45,46 @@
     </aside>
 
   <main>
-    <div id="progressDisplay"></div>
-    <div class="level-box">
-      <div class="container">
+  <div class="progress-wrapper">
+    <div id="progressDisplay">Level 1: 0/2 ⭐</div>
+    <div id="pointsDisplay">⭐ Points: 0</div>
+  </div>
+
+
+  <div class="level-box">
+    <div class="container">
       <p id="question">Press "New Question" to start!</p>
 
-        <div class="first"> </div>
-        <div class="second">
-          <div class="plus">+</div>
-          <div class="number"> </div>
-        </div>
-        <div class="third">
-            <div class="line"></div>
-          <input type="text" id="userAnswer" placeholder="Your answer">
-          <div class="result"></div>
-        </div>
+      <div class="first"></div>
+      <div class="second">
+        <div class="plus">+</div>
+        <div class="number"></div>
+      </div>
 
-        <div class="buttons">
-          <button onclick="checkAnswer()">Submit</button>
-          <button onclick="newQuestion()">New Question</button>
-        </div>
+      <div class="third">
+        <div class="line"></div>
+        <input type="text" id="userAnswer" placeholder="Your answer">
+        <div class="result"></div>
+      </div>
 
+      <div class="buttons">
+        <button onclick="checkAnswer()">Submit</button>
+        <button onclick="newQuestion()">New Question</button>
       </div>
     </div>
-    <div class="cat-speech-container">
-      <div class="catLVL-container">
-        <img src="../pictures/cat.png"class="no-click" alt="Cat">
-      </div>
-      <div class="speechBubble-container">
-        <p id="feedback">Let's get started!</p>
-        <img src="../pictures/speech-bubble-light-grey.svg">
-      </div>
+  </div>
+
+  <div class="cat-speech-container">
+    <div class="catLVL-container">
+      <img src="../pictures/cat.png" class="no-click" alt="Cat">
     </div>
-  </main>
+    <div class="speechBubble-container">
+      <p id="feedback">Let's get started!</p>
+      <img src="../pictures/speech-bubble-light-grey.svg">
+    </div>
+  </div>
+</main>
+
 
   <aside class="side-right">
     <img src="../pictures/advertisement.webp">

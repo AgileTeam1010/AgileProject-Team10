@@ -114,9 +114,10 @@ async function saveProgress(level, operator) {
     const userRef = doc(db, "users", uid);
     const snap = await getDoc(userRef);
 
-    const existing = snap.exists() ? snap.data() : { progress: {} };
+    const existing = snap.exists() ? snap.data() : { progress: {}, points: 0 };
     const current = existing.progress?.[topic] || { answeredCount: 0, highestLevel: 1 };
 
+    // Update topic progress
     const updatedTopic = {
       answeredCount: current.answeredCount + 1,
       highestLevel: Math.max(current.highestLevel, level)
@@ -124,18 +125,26 @@ async function saveProgress(level, operator) {
 
     const updatedProgress = { ...existing.progress, [topic]: updatedTopic };
 
+    // Add 10 points per correct answer
+    const newPoints = (existing.points || 0) + 10;
+
     if (snap.exists()) {
-      await updateDoc(userRef, { progress: updatedProgress });
+      await updateDoc(userRef, { progress: updatedProgress, points: newPoints });
     } else {
-      await setDoc(userRef, { progress: updatedProgress });
+      await setDoc(userRef, { progress: updatedProgress, points: newPoints });
     }
 
-    console.log(`✅ Firestore updated for ${topic}:`, updatedTopic);
+    console.log(`✅ Firestore updated for ${topic}: +10 points (Total: ${newPoints})`);
+
+    // Update live points in UI
+    const pointsEl = document.getElementById("pointsDisplay");
+    if (pointsEl) pointsEl.textContent = `⭐ Points: ${newPoints}`;
 
   } catch (err) {
     console.error("❌ Failed to save progress:", err);
   }
 }
+
 
 
 function newQuestion() {
@@ -244,7 +253,43 @@ function updateProgressDisplay() {
     `Level ${currentLevel}: ${completed}/${maxQuestionsPerLevel} ${star}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  const auth = window._auth;
+  const db = window._db;
+  const doc = window._doc;
+  const getDoc = window._getDoc;
+
+  // 🟢 Wait for Firebase auth state
+  const user = await new Promise(resolve => {
+    const unsub = auth.onAuthStateChanged(u => {
+      unsub();
+      resolve(u);
+    });
+  });
+
+  if (user) {
+    try {
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const data = snap.data();
+        const points = data.points ?? 0;
+        const pointsEl = document.getElementById("pointsDisplay");
+        if (pointsEl) {
+          pointsEl.textContent = `⭐ Points: ${points}`;
+        }
+        console.log(`✅ Loaded ${points} points for ${user.email}`);
+      } else {
+        console.log("ℹ️ No user doc yet, starting at 0 points.");
+      }
+    } catch (err) {
+      console.warn("⚠️ Could not load points:", err);
+    }
+  } else {
+    console.warn("No user signed in — points will not load.");
+  }
+
+  // 🔹 Existing setup (unchanged)
   const params = new URLSearchParams(window.location.hash.replace('#', ''));
   const levelParam = parseInt(params.get('level'), 10);
   if (!Number.isNaN(levelParam) && levelParam >= 1 && levelParam <= 5) {
@@ -268,3 +313,4 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProgressDisplay();
   document.getElementById('feedback').textContent = "Let's get started!";
 });
+
