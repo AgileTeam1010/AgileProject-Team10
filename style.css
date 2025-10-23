@@ -992,7 +992,7 @@ input#userAnswer {
 .progress-item h3 {
   margin: 0 0 0.3rem;
   color: #f57c00;
-  font-family: 'Irish Grover', cursive;
+  font-family: 'Nunito', cursive;
 }
 
 .points-display {
@@ -1000,6 +1000,13 @@ input#userAnswer {
   font-weight: bold;
   color: gold;
   margin-bottom: 10px;
+}
+
+/* --- Profile page: make white box fit all progress --- */
+body.profile-page .white-section {
+  height: auto;             /* grows naturally with content */
+  min-height: 40vh;        /* ensures it's not too short initially */
+  overflow: visible;        /* ensures inner content isn’t clipped */
 }
 
 

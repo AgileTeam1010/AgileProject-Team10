@@ -9,7 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
 </head>
 
+
+
 <body>
+  <body class="profile-page">
+
   <header class="top-header">
     <div class="left-header">
       <a href="index.html">
@@ -92,10 +96,7 @@
       const ref = doc(db, "users", user.uid);
       const snap = await getDoc(ref);
 
-if (!snap.exists() || !snap.data().progress) {
-  container.textContent = "No progress yet 💤";
-  return;
-}
+
 
 const data = snap.data();
 const progress = data.progress || {};
@@ -111,29 +112,49 @@ renderProgress(progress, container, points);
   function renderProgress(progress, container, points = 0) {
   container.innerHTML = "";
 
+  // ⭐ Total points
   const pointsEl = document.createElement("p");
   pointsEl.classList.add("points-display");
   pointsEl.textContent = `⭐ Total Points: ${points}`;
   container.appendChild(pointsEl);
 
-  const totalAnswered = Object.values(progress).reduce((sum, p) => sum + (p.answeredCount ?? 0), 0);
+  // 🎯 Summary
+  const totalAnswered = Object.values(progress).reduce(
+    (sum, p) => sum + (p.answeredCount ?? 0),
+    0
+  );
 
   const summary = document.createElement("p");
   summary.classList.add("progress-summary");
   summary.textContent = `🎯 Total questions answered: ${totalAnswered}`;
   container.appendChild(summary);
 
-  for (const [topic, data] of Object.entries(progress)) {
+  // ✅ Topic list with icons
+  const topics = [
+    { id: "addition", name: "Addition", icon: "➕", color: "#d38b4b" },
+    { id: "subtraction", name: "Subtraction", icon: "➖", color: "#d889d8" },
+    { id: "multiplication", name: "Multiplication", icon: "✖️", color: "rgb(78, 197, 136)" },
+    { id: "division", name: "Division", icon: "➗", color: "rgb(169, 113, 187)" },
+    { id: "mixed", name: "Mixed", icon: "🎲", color: "#f4a261" }
+  ];
+
+  for (const topic of topics) {
+    const data = progress[topic.id] || { answeredCount: 0, highestLevel: 0 };
+
     const div = document.createElement("div");
     div.classList.add("progress-item");
     div.innerHTML = `
-      <h3>${topic.charAt(0).toUpperCase() + topic.slice(1)}</h3>
+      <h3 style="color:${topic.color}">
+        ${topic.icon} ${topic.name}
+      </h3>
       <p>Questions answered: ${data.answeredCount ?? 0}</p>
-      <p>Highest level: ${data.highestLevel ?? 1}</p>
+      <p>Highest level: ${data.highestLevel ?? 0}</p>
     `;
     container.appendChild(div);
   }
 }
+
+
 
 </script>
 
